@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sign_btn_fonts">20sp</dimen>
+    <dimen name="sign_input_width">320dp</dimen>
+    <dimen name="sign_input_height">50dp</dimen>
+</resources>
