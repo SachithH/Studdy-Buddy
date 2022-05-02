@@ -2,5 +2,16 @@
 <resources>
     <style name="ganganeeText" parent="Theme.AppCompat.NoActionBar">
         <item name="android:fontFamily">@font/fm_ganganee</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="malithiText" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:fontFamily">@font/fm_malithi</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="SyllabusText" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

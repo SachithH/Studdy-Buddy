@@ -1,47 +1,79 @@
 package com.learntv.studybuddy.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.learntv.studybuddy.GradesActivity;
+import com.learntv.studybuddy.MainActivity;
 import com.learntv.studybuddy.R;
+import com.learntv.studybuddy.SyllabusActivity;
 
-public class CustomAdapter extends BaseAdapter {
+import java.util.ArrayList;
+
+
+public class CustomAdapter extends RecyclerView.Adapter <CustomAdapter.MyViewHolder>{
     Context context;
-    int logos[];
-    LayoutInflater inflater;
+    ArrayList<Integer> logos;
+    private RecyclerViewClickListener listener;
 
-    public CustomAdapter(Context applicationContext, int[] logos){
+    public CustomAdapter(Context applicationContext, ArrayList<Integer> logos, RecyclerViewClickListener listener){
         this.context = applicationContext;
         this.logos = logos;
-        inflater = (LayoutInflater.from(applicationContext));
+        this.listener = listener;
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        //inflate the item layout
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_gridview,viewGroup,false);
+        return new MyViewHolder(v);
     }
 
     @Override
-    public int getCount() {
-        return logos.length;
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        //set the data
+        holder.getImageView().setImageResource(logos.get(position));
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public int getItemCount() {
+        return logos.size();
     }
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private final ImageView imageView;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            imageView = (ImageView) itemView.findViewById(R.id.icon);
+
+            itemView.setOnClickListener(this);
+        }
+
+        public ImageView getImageView() {
+            return imageView;
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view,getBindingAdapterPosition());
+
+        }
     }
 
-    @SuppressLint({"ViewHolder", "InflateParams"})
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        view = inflater.inflate(R.layout.activity_gridview,null);
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        icon.setImageResource(logos[i]);
-        return view;
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
     }
 }

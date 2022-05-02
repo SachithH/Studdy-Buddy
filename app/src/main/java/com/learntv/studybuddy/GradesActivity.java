@@ -1,36 +1,64 @@
 package com.learntv.studybuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.GridView;
-import android.widget.Toolbar;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.learntv.studybuddy.adapters.CustomAdapter;
 
-public class GradesActivity extends AppCompatActivity {
-    GridView gradesGrid;
+import java.util.ArrayList;
 
-    int[] logos = {
-            R.drawable.grade6,
-            R.drawable.grade7,
-            R.drawable.grade8,
-            R.drawable.grade9,
-            R.drawable.grade10,
-            R.drawable.grade11,
-            R.drawable.grade12,
-            R.drawable.grade13
-    };
+public class GradesActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
+    ArrayList<Integer> logos = new ArrayList<>();
+    private CustomAdapter.RecyclerViewClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grades);
 
-        gradesGrid = findViewById(R.id.gradesGrid);
+        //add item to arraylist
+        setInfo();
+
+        //Set Adapter
+        recyclerView = findViewById(R.id.recyclerView);
+        setAdapter();
+    }
+
+    private void setAdapter() {
+        setOnClicklistener();
+        GridLayoutManager gridView = new GridLayoutManager(getApplicationContext(), 3, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridView);
         //Create an object of custom Adapter
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), logos);
-        gradesGrid.setAdapter(customAdapter);
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), logos, listener);
+        recyclerView.setAdapter(customAdapter);
+    }
+
+    private void setOnClicklistener() {
+        listener = new CustomAdapter.RecyclerViewClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(),SyllabusActivity.class);
+                intent.putExtra("POSITION",position);
+                startActivity(intent);
+            }
+        };
+    }
+
+    private void setInfo() {
+        logos.add(R.drawable.grade6);
+        logos.add(R.drawable.grade7);
+        logos.add(R.drawable.grade8);
+        logos.add(R.drawable.grade9);
+        logos.add(R.drawable.grade10);
+        logos.add(R.drawable.grade11);
+        logos.add(R.drawable.grade12);
+        logos.add(R.drawable.grade13);
     }
 }

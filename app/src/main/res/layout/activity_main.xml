@@ -40,19 +40,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:textAppearance="@style/ganganeeText"
-            android:text="@string/for_more_details"
-            android:textSize="30sp"
-            android:textColor="@color/white"/>
+            android:text="@string/for_more_details"/>
 
         <TextView
             android:id="@+id/aboutThis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/fm_malithi"
-            android:text="@string/watch_this_video"
-            android:textSize="14sp"
-            android:textColor="@color/white"/>
+            android:textAppearance="@style/malithiText"
+            android:text="@string/watch_this_video"/>
 
 
         <androidx.appcompat.widget.AppCompatButton

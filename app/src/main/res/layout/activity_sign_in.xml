@@ -10,51 +10,53 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
         <!--Email-->
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/emailIn"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="@dimen/sign_input_height"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
             android:background="@drawable/inputs"
             android:hint="Enter Email"
             android:inputType="textEmailAddress"
             android:singleLine="true"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray" />
         <!--Email End-->
 
         <!--Password-->
         <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/passwordIn"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="@dimen/sign_input_height"
             android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
             android:background="@drawable/inputs"
             android:hint="Enter Password"
             android:inputType="textPassword"
             android:singleLine="true"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray" />
         <!--Password End-->
 
         <!--Sign In Button-->
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/profileSignIn"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="@dimen/sign_input_height"
             android:layout_marginTop="35dp"
+            android:background="@drawable/signup_btns"
             android:text="@string/sign_in"
             android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts"
-            android:background="@drawable/signup_btns"
-            android:id="@+id/profileSignIn"/>
+            android:textSize="@dimen/sign_btn_fonts" />
         <!--Sign In Button End-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
