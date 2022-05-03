@@ -17,11 +17,17 @@ public class GradesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Integer> logos = new ArrayList<>();
     private CustomAdapter.RecyclerViewClickListener listener;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grades);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            token = extras.getString("token");
+        }
 
         //add item to arraylist
         setInfo();
@@ -44,8 +50,11 @@ public class GradesActivity extends AppCompatActivity {
         listener = new CustomAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("POSITION",position);
+                bundle.putString("token",token);
                 Intent intent = new Intent(getApplicationContext(),SyllabusActivity.class);
-                intent.putExtra("POSITION",position);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         };

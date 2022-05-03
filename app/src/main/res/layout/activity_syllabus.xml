@@ -50,7 +50,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Button
-            android:id="@+id/SylBtn"
+            android:id="@+id/GradesBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -70,6 +70,7 @@
         android:background="@drawable/gradient_background">
 
         <Button
+            android:id="@+id/Syllabus2011"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

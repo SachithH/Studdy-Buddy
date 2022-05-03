@@ -28,12 +28,11 @@ import retrofit2.Response;
 public class SignInActivity extends AppCompatActivity {
     private hideSystemBars hidingStatus;
     private View decorView;
-    private String hashPW;
     private EditText email;
     private EditText password;
-    private String passHash;
-    private boolean checkPassword;
     private SignInResponse signInResponseData;
+    private String hashPW;
+    private String errors;
 
 
     @Override
@@ -60,18 +59,18 @@ public class SignInActivity extends AppCompatActivity {
         //Sign In Button
         Button signIn = findViewById(R.id.profileSignIn);
 
-        try {
-            email.setText(createHash("12345"));
-        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String emailStr = email.getText().toString().trim();
+                String passwordStr = password.getText().toString().trim();
                 // validate the fields and call sign method to implement the api
                 if (validateEmail() && validatePwd()) {
-                    signIn();
+                    try {
+                        signIn(emailStr,passwordStr);
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -117,21 +116,32 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 //    Sign In Process
-    private void signIn() {
+    private void signIn(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         // display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
         progressDialog.setMessage("Please Wait"); // set message
         progressDialog.show(); // show progress dialog
 
+        try {
+            hashPW = createHash(email,password);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+
+
         (Api.getClient().login(
-                email.getText().toString().trim(),
-                password.getText().toString().trim()
+                email,
+                hashPW
         )).enqueue(new Callback<SignInResponse>() {
             @Override
             public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
                 signInResponseData = response.body();
-                Toast.makeText(getApplicationContext(), signInResponseData.getSuccess().toString(), Toast.LENGTH_SHORT).show();
+                if(signInResponseData.getSuccess()){
+                    loginToGrades(signInResponseData.getToken());
+                }else{
+                            showErrors();
+                    }
                 progressDialog.dismiss();
             }
 
@@ -145,11 +155,40 @@ public class SignInActivity extends AppCompatActivity {
                         + " array contains = "
                         + stktrace[i].toString());
                 }
-                Toast.makeText(getApplicationContext(),"Not Working",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Something went wrong. Please try again Later",Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
 
             }
-        });
+
+    });
+    }
+
+    private void showErrors() {
+           switch (signInResponseData.getErrorcode()){
+               case 100:
+                   errors = "Something went wrong. Please try again Later";
+                   break;
+               case 101:
+                   errors = "Username not found";
+                   break;
+               case 102:
+                   errors = "Email validation error";
+                   break;
+               case 103:
+                   errors = "Account not activated";
+               case 104:
+                   errors = "Login expired. Please Sign In";
+               case 105:
+                   errors = "Token of session is not provided";
+           }
+               Toast.makeText(getApplicationContext(),errors,Toast.LENGTH_SHORT).show();
+
+        }
+
+    private void loginToGrades(String token) {
+        Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
+        intent.putExtra("token",token);
+        startActivity(intent);
     }
 
     @Override
