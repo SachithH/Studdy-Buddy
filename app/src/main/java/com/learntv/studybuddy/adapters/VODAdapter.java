@@ -20,11 +20,13 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
     private final List<com.learntv.studybuddy.retrofit.List> dataList;
     Context context;
     VODResponse VODResponseData;
+    RecyclerViewClickListener listener;
 
-    public VODAdapter(Context context, VODResponse VODResponseData) {
+    public VODAdapter(Context context, VODResponse VODResponseData, RecyclerViewClickListener listener) {
         this.VODResponseData = VODResponseData;
         this.context = context;
         this.dataList = VODResponseData.getList();
+        this.listener = listener;
     }
 
     @NonNull
@@ -38,9 +40,11 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
         //set the data
-        holder.name.setText("id:"+dataList.get(position).getFile());
-        holder.thumb.setImageURI(null);
-        holder.thumb.setImageURI(Uri.parse(dataList.get(position).getImage()));
+        holder.name.setText(dataList.get(position).getVideo());
+        if(dataList.get(position).getImage()!=null){
+            holder.thumb.setImageURI(null);
+            holder.thumb.setImageURI(Uri.parse(dataList.get(position).getImage()));
+        }
     }
 
     @Override
@@ -48,13 +52,24 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
         return dataList.size();
     }
 
-    public class UsersViewHolder extends RecyclerView.ViewHolder{
+    public class UsersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name;
         ImageView thumb;
         public UsersViewHolder(View view) {
             super(view);
             thumb = view.findViewById(R.id.VODThumb);
             name = view.findViewById(R.id.VODName);
+
+            view.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            listener.onClick(view, getBindingAdapterPosition());
+        }
+    }
+
+    public interface RecyclerViewClickListener{
+        void onClick(View v, int position);
     }
 }

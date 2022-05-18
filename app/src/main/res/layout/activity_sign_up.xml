@@ -9,116 +9,132 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-
-<!--Username-->
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:background="@drawable/inputs"
-            android:hint="Enter Username"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textAlignment="center" />
-<!--Username End-->
-
-<!--Email-->
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:background="@drawable/inputs"
-            android:hint="Enter Your Email"
-            android:inputType="textEmailAddress"
-            android:singleLine="true"
-            android:textAlignment="center" />
-<!--Email End-->
-
-<!--Password-->
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:background="@drawable/inputs"
-            android:hint="Enter New Password"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textAlignment="center" />
-<!--Password End-->
-
-<!--Retype Password-->
-        <androidx.appcompat.widget.AppCompatEditText
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:background="@drawable/inputs"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textAlignment="center" />
-<!--Retype Password End-->
-
-<!--Sign Up Button-->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/profileSignUp"
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="35dp"
-            android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts"
-            android:background="@drawable/signup_btns" />
-<!--Sign Up Button End-->
-
-        <!--Facebook Button-->
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="35dp"
-            android:text="Connect with Facebook"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts"
-            android:textAllCaps="false"
-            android:drawableStart="@drawable/fb_logo"
-            android:background="@drawable/facebook"
-            android:layout_marginHorizontal="20dp"/>
-        <!--Facebook Button End-->
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
-<!--Google Button-->
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="10dp"
-            android:text="Connect with Google"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts"
-            android:textAllCaps="false"
-            android:drawableStart="@drawable/google_logo"
-            android:background="@drawable/google"
-            android:layout_marginHorizontal="20dp"/>
-<!--Google Button-->
+            <!--Username-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/SignUpUsername"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:autofillHints="Eg: Malith"
+                android:background="@drawable/inputs"
+                android:hint="Enter Username"
+                android:inputType="text"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray" />
+            <!--Username End-->
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
-<!--Linear Layout End-->
+            <!--Email-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/SignUpEmail"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/inputs"
+                android:hint="Enter Your Email"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray" />
+            <!--Email End-->
+
+            <!--Password-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/SignUpPassword"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/inputs"
+                android:hint="Enter New Password"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray" />
+            <!--Password End-->
+
+            <!--Retype Password-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/SignUpRetypePassword"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/inputs"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray" />
+            <!--Retype Password End-->
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/SignUpContacts"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/inputs"
+                android:hint="Enter Your Phone Number"
+                android:inputType="phone"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray"
+                android:maxLength="10"/>
+
+            <!--Sign Up Button-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/SignUpBtn"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/signup_btns"
+                android:text="@string/sign_up"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sign_btn_fonts" />
+            <!--Sign Up Button End-->
+
+            <!--Facebook Button-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/FBBtn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/sign_input_height"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/facebook"
+                android:drawableStart="@drawable/fb_logo"
+                android:text="Connect with Facebook"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sign_btn_fonts" />
+            <!--Facebook Button End-->
+
+            <!--Google Button-->
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/google"/>
+            <!--Google Button-->
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+        <!--Linear Layout End-->
 
     </ScrollView>
 

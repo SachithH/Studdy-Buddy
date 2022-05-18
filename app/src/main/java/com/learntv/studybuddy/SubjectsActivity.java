@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import com.learntv.studybuddy.adapters.CustomAdapter;
 
@@ -20,6 +21,7 @@ public class SubjectsActivity extends AppCompatActivity {
     private int position;
     private String token;
     private String Syllabus;
+    private String Grade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,15 @@ public class SubjectsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             position = extras.getInt("POSITION");
+            Grade = extras.getString("grade");
             Syllabus = extras.getString("Syllabus");
             token = extras.getString("token");
         }
+
+//        Button GradesBtn = (Button)findViewById(R.id.GradesBtn);
+//        GradesBtn.setText(Grade);
+//        Button SylBtn = (Button)findViewById(R.id.SylBtn);
+//        SylBtn.setText(Syllabus);
 
         //add item to arraylist
         setInfo();

@@ -1,8 +1,10 @@
 package com.learntv.studybuddy;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -70,4 +72,5 @@ public class GradesActivity extends AppCompatActivity {
         logos.add(R.drawable.grade12);
         logos.add(R.drawable.grade13);
     }
+
 }

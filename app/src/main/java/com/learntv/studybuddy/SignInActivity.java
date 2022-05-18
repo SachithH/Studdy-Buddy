@@ -3,19 +3,25 @@ package com.learntv.studybuddy;
 import static com.learntv.studybuddy.PasswordHashing.createHash;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.learntv.studybuddy.retrofit.Api;
 import com.learntv.studybuddy.retrofit.SignInResponse;
+import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.hideSystemBars;
 
 import java.security.NoSuchAlgorithmException;
@@ -30,9 +36,10 @@ public class SignInActivity extends AppCompatActivity {
     private View decorView;
     private EditText email;
     private EditText password;
-    private SignInResponse signInResponseData;
+    private CheckBox rememberMe;
+    private SignInResponse signUpResponseData;
     private String hashPW;
-    private String errors;
+    private String errors = "Something went wrong. Please try again Later";
 
 
     @Override
@@ -52,9 +59,30 @@ public class SignInActivity extends AppCompatActivity {
         });
 //        End of hide status bar
 
+        //remember me
+        PrefManager prefManager = new PrefManager(getApplicationContext());
+        if (!prefManager.isUserLoggedOut()) {
+            //user's email and password both are saved in preferences
+            String savedEmail = prefManager.getEmail();
+            String savedPassword = prefManager.getPassword();
+
+            if (validateEmail(savedEmail) && validatePwd(savedPassword)) {
+                try {
+                    signIn(savedEmail,savedPassword);
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Something Went Wrong Please Try Again Later", Toast.LENGTH_LONG).show();
+                }
+            }
+
+
+        }
+        //end remember me
+
 //        username and password
         email = findViewById(R.id.emailIn);
         password = findViewById(R.id.passwordIn);
+        rememberMe = findViewById(R.id.rememberMe);
 
         //Sign In Button
         Button signIn = findViewById(R.id.profileSignIn);
@@ -64,12 +92,16 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String emailStr = email.getText().toString().trim();
                 String passwordStr = password.getText().toString().trim();
+                //Create hash password
+
                 // validate the fields and call sign method to implement the api
-                if (validateEmail() && validatePwd()) {
+                if (validateEmail(emailStr) && validatePwd(passwordStr)) {
+                    hashPW = createHashPW(emailStr,passwordStr);
                     try {
-                        signIn(emailStr,passwordStr);
+                        signIn(emailStr,hashPW);
                     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                         e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Something Went Wrong Please Try Again Later", Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -84,8 +116,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
     //    validate email
-    private boolean validateEmail() {
-        String emailString = email.getText().toString().trim();
+    private boolean validateEmail(String emailString) {
 
         if (emailString.isEmpty() || !isValidEmail(emailString)){
             email.setError("Email is not valid");
@@ -102,8 +133,8 @@ public class SignInActivity extends AppCompatActivity {
 //   end email validate
 
 //    password validate
-    private boolean validatePwd() {
-        if (0 < password.getText().toString().trim().length()) {
+    private boolean validatePwd(String passwordStr) {
+        if (0 < passwordStr.length()) {
             return true;
         }else {
             password.setError("Please Fill This");
@@ -115,34 +146,35 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-//    Sign In Process
-    private void signIn(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        // display a progress dialog
-        final ProgressDialog progressDialog = new ProgressDialog(SignInActivity.this);
-        progressDialog.setCancelable(false); // set cancelable to false
-        progressDialog.setMessage("Please Wait"); // set message
-        progressDialog.show(); // show progress dialog
-
+    public String createHashPW(String email,String password){
         try {
-            hashPW = createHash(email,password);
+            return createHash(email,password);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
+        return password;
+    }
 
+//    Sign In Process
+    private void signIn(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
 
         (Api.getClient().login(
                 email,
-                hashPW
+                password
         )).enqueue(new Callback<SignInResponse>() {
             @Override
-            public void onResponse(Call<SignInResponse> call, Response<SignInResponse> response) {
-                signInResponseData = response.body();
-                if(signInResponseData.getSuccess()){
-                    loginToGrades(signInResponseData.getToken());
-                }else{
-                            showErrors();
-                    }
-                progressDialog.dismiss();
+            public void onResponse(@NonNull Call<SignInResponse> call, @NonNull Response<SignInResponse> response) {
+                signUpResponseData = response.body();
+                if (signUpResponseData != null) {
+                    if(signUpResponseData.getSuccess()){
+                        if (rememberMe.isChecked()){saveLoginDetails(email,hashPW);}
+                        loginToGrades(
+                                signUpResponseData.getToken(),
+                                email);
+                    }else{
+                                showErrors();
+                        }
+                }
             }
 
             @Override
@@ -155,24 +187,28 @@ public class SignInActivity extends AppCompatActivity {
                         + " array contains = "
                         + stktrace[i].toString());
                 }
-                Toast.makeText(getApplicationContext(),"Something went wrong. Please try again Later",Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
+                showMessages("Something went wrong. Please try again later");
 
             }
 
     });
     }
 
+    private void saveLoginDetails(String email, String hashPW) {
+        PrefManager prefManager = new PrefManager(getApplicationContext());
+        prefManager.saveLoginDetails(email,hashPW);
+    }
+
     private void showErrors() {
-           switch (signInResponseData.getErrorcode()){
+           switch (signUpResponseData.getErrorcode()){
                case 100:
-                   errors = "Something went wrong. Please try again Later";
+                   errors = "Internal server error. Please try again Later";
                    break;
                case 101:
-                   errors = "Username not found";
+                   errors = "Username or Password incorrect";
                    break;
                case 102:
-                   errors = "Email validation error";
+                   errors = "Please enter email correct and try again";
                    break;
                case 103:
                    errors = "Account not activated";
@@ -181,11 +217,11 @@ public class SignInActivity extends AppCompatActivity {
                case 105:
                    errors = "Token of session is not provided";
            }
-               Toast.makeText(getApplicationContext(),errors,Toast.LENGTH_SHORT).show();
+               showMessages(errors);
 
         }
 
-    private void loginToGrades(String token) {
+    private void loginToGrades(String token,String email) {
         Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
         intent.putExtra("token",token);
         startActivity(intent);
@@ -197,5 +233,27 @@ public class SignInActivity extends AppCompatActivity {
         if (hasFocus){
             decorView.setSystemUiVisibility(hidingStatus.hideSystemBars());
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String savedEmail = new PrefManager(getApplicationContext()).getEmail();
+        String savedPassword = new PrefManager(getApplicationContext()).getPassword();
+        if (savedEmail!=null){
+            email.setText(savedEmail);
+        }
+        if (savedPassword!=null){
+            password.setText(savedPassword);
+        }
+
+    }
+
+    private void showMessages(String error) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignInActivity.this);
+        builder.setMessage(error);
+        builder.setCancelable(true);
+        builder.show();
+
     }
 }

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
     android:layout_gravity="top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:background="@drawable/google">
 
 
         <ImageView
+            android:layout_gravity="start"
             android:id="@+id/VODThumb"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="80dp"
             android:src="@drawable/grade6"/>
 
@@ -22,6 +24,6 @@
             android:layout_height="80dp"
             android:textSize="20sp"/>
 
-    </androidx.cardview.widget.CardView>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 

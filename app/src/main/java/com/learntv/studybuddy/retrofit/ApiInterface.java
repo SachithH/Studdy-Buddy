@@ -9,10 +9,10 @@ public interface ApiInterface {
 //    For post request
     @FormUrlEncoded
     @POST("/studybuddy/v1/register/")
-    Call<SignInResponse> register(
+    Call<SignUpResponse> register(
             @Field("email") String email,
             @Field("password") String password,
-            @Field("password") String username,
+            @Field("username") String username,
             @Field("contact") int contact
     );
 

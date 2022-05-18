@@ -46,6 +46,7 @@ public class SyllabusActivity extends AppCompatActivity {
             public void onClick(View view) {
                 extra_details.putString("Syllabus","Syllabus 2011");
                 extra_details.putInt("POSITION",position);
+                extra_details.putString("grade",Grades[position]);
                 extra_details.putString("token",token);
                 Intent intent = new Intent(getApplicationContext(),SubjectsActivity.class);
                 intent.putExtras(extra_details);
