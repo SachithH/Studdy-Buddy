@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/gradesImage"
             app:layout_constraintStart_toStartOf="parent">
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
                 android:text="Tnf.a\núIh ks¾foaYh\nf;darkak"
-                android:textAppearance="@style/ganganeeText" />
+                android:textAppearance="@style/ganganeeText"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -75,21 +75,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Syllabus 2011"
-            android:textAppearance="@style/SyllabusText"/>
+            android:textAppearance="@style/SyllabusText"
+            android:background="@drawable/google"/>
 
         <Button
+            android:id="@+id/Syllabus2016"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/google"
             android:text="Syllabus 2016"
-            android:textAppearance="@style/SyllabusText"
-            android:layout_marginTop="10dp"/>
+            android:textAppearance="@style/SyllabusText" />
 
         <Button
+            android:id="@+id/Syllabus2023"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/google"
             android:text="Syllabus 2023"
-            android:textAppearance="@style/SyllabusText"
-            android:layout_marginTop="10dp"/>
+            android:textAppearance="@style/SyllabusText" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

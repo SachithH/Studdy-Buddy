@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.learntv.studybuddy.adapters.CustomAdapter;
 
@@ -18,10 +17,20 @@ public class SubjectsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Integer> logos = new ArrayList<>();
     private CustomAdapter.RecyclerViewClickListener listener;
-    private int position;
     private String token;
-    private String Syllabus;
-    private String Grade;
+    private String syllabus;
+    private String grade;
+    private String[] subjects = {
+            "sinhala",
+            "science",
+            "maths",
+            "history",
+            "geography",
+            "english",
+            "tamil",
+            "ict",
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +39,8 @@ public class SubjectsActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            position = extras.getInt("POSITION");
-            Grade = extras.getString("grade");
-            Syllabus = extras.getString("Syllabus");
+            grade = extras.getString("grade");
+            syllabus = extras.getString("syllabus");
             token = extras.getString("token");
         }
 
@@ -61,9 +69,12 @@ public class SubjectsActivity extends AppCompatActivity {
     private void setOnClicklistener() {
         listener = new CustomAdapter.RecyclerViewClickListener() {
             @Override
-            public void onClick(View v, int position) {
+            public void onClick(View v, int pos) {
                 Bundle bundle = new Bundle();
                 bundle.putString("token",token);
+                bundle.putString("grade",grade);
+                bundle.putString("syllabus",syllabus);
+                bundle.putString("subject",subjects[pos]);
                 Intent intent = new Intent(getApplicationContext(),VODListActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

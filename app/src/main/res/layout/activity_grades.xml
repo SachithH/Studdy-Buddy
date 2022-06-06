@@ -9,39 +9,37 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/rectangle1">
 
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="280dp"
-        android:gravity="start|bottom"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical"
-        app:layout_collapseMode="none">
-
-        <TextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tnf.a \nfY%a‚h \nf;darkak"
-            android:textAppearance="@style/ganganeeText" />
+            android:layout_height="280dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="20dp"
+            android:fitsSystemWindows="true"
+            android:gravity="start|bottom"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="b.ekqu wdrïN lrkak"
-            android:textAppearance="@style/malithiText" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tnf.a \nfY%a‚h \nf;darkak"
+                android:textAppearance="@style/ganganeeText" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="b.ekqu wdrïN lrkak"
+                android:textAppearance="@style/malithiText" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:padding="10dp"/>
-
+            android:gravity="center_horizontal"
+            android:padding="10dp" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -4,17 +4,23 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/answer_btn.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/curved.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/google.xml" value="0.142" />
+        <entry key="app/src/main/res/drawable/gradient_background.xml" value="0.142" />
+        <entry key="app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.143" />
         <entry key="app/src/main/res/layout/activity_grades.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_gridview.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_mcq.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_playing_video.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_subjects.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_syllabus.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/activity_vodlist.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/adapter_vod.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_vodlist.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/adapter_mcq.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/adapter_vod.xml" value="0.25" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.14166666666666666" />
         <entry key="app/src/main/res/menu/menu_v_o_d_list.xml" value="0.25" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1395" />

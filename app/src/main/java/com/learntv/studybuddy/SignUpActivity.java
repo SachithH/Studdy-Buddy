@@ -1,32 +1,21 @@
 package com.learntv.studybuddy;
 
-import static android.content.ContentValues.TAG;
 import static com.learntv.studybuddy.PasswordHashing.createHash;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.learntv.studybuddy.retrofit.Api;
@@ -35,6 +24,8 @@ import com.learntv.studybuddy.support.hideSystemBars;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,11 +43,15 @@ public class SignUpActivity extends AppCompatActivity {
     private SignUpResponse signUpResponseData;
     private GoogleSignInClient mGoogleSignInClient;
     private Bundle bundle;
+    private CircularProgressIndicator circularProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        circularProgress = findViewById(R.id.progress_circular);
+        circularProgress.setVisibility(View.INVISIBLE);
 
 
 
@@ -87,22 +82,12 @@ public class SignUpActivity extends AppCompatActivity {
                 String SignUpEmail = USignUpEmail.getText().toString().trim();
                 String SignUpPassword = USignUpPassword.getText().toString().trim();
                 String SignUpRetypePassword = USignUpRetypePassword.getText().toString().trim();
-                int SignUpContacts = 0123;
-                try {
-                    SignUpContacts = Integer.parseInt(USignUpContacts.getText().toString());
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    if (!(validate()&&validateEmail()&&validatePassword()&&matchPW())){
-                        USignUpContacts.setError("Please enter valid number");
-                    }
+                String SignUpContacts = USignUpContacts.getText().toString().trim();
 
-                }
-
-                try {
-                    signUp(SignUpUsername,SignUpEmail,SignUpPassword, SignUpContacts);
-                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-                    e.printStackTrace();
-                    showMessages("Sorry, we are unable to complete the sign up process now. Make sure you are connect with internet and try again later.");
+                BackgroundSignUp backgroundSignUp = new BackgroundSignUp();
+                if (validate()){
+                    backgroundSignUp.executeAsync(SignUpUsername,SignUpEmail,SignUpPassword,SignUpContacts);
+                    circularProgress.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -110,40 +95,62 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    //    Async Task is deprecated
+//    Executor for Async
+    public class BackgroundSignUp{
+        private final Executor executor = Executors.newSingleThreadExecutor();
+        private final Handler handler = new Handler(Looper.getMainLooper());
+
+        public void executeAsync (String username, String emailStr, String passwordStr, String contacts){
+            executor.execute(()->{
+                try {
+                    hashPW = createHashPW(emailStr,passwordStr);
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                    e.printStackTrace();
+                }
+                handler.post(()->{
+                    try {
+                        signUp(username, emailStr,hashPW, contacts);
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        e.printStackTrace();
+                        showMessages("Sorry, we are unable to complete the sign up process now. Make sure you are connect with internet and try again later.");
+                    }
+                });
+            });
+
+        }
+    }
+
+    public String createHashPW(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        return createHash(email, password);
+    }
+
 
 
 
 
     //    SIGN UP PROCESS
-    private void signUp(String signUpUsername, String signUpEmail, String signUpPassword, int signUpContacts) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private void signUp(String signUpUsername, String signUpEmail, String hashPassword, String signUpContacts) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if (validate()&&matchPW()) {
-
-            try {
-                hashPW = createHash(signUpEmail, signUpPassword);
-            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-                e.printStackTrace();
-                showMessages("Something went wrong. Please try again later!");
-            }
 
 
             (Api.getClient().register(
                     signUpEmail,
-                    hashPW,
+                    hashPassword,
                     signUpUsername,
                     signUpContacts
             )).enqueue(new Callback<SignUpResponse>() {
                 @Override
-                public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
+                public void onResponse(@NonNull Call<SignUpResponse> call, @NonNull Response<SignUpResponse> response) {
                     signUpResponseData = response.body();
-                    if (signUpResponseData.getSuccess()) {
+                    if (signUpResponseData != null) {
                         showMessages(signUpResponseData.getMessage());
-                    } else {
-                        showMessages(signUpResponseData.getMessage());
+                        circularProgress.setVisibility(View.INVISIBLE);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<SignUpResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<SignUpResponse> call, @NonNull Throwable t) {
                     StackTraceElement[] stktrace
                             = t.getStackTrace();
                     for (int i = 0; i < stktrace.length; i++) {
@@ -164,11 +171,17 @@ public class SignUpActivity extends AppCompatActivity {
     private void showMessages(String message) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignUpActivity.this);
         builder.setMessage(message);
-        builder.setCancelable(true);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setCancelable(false);
+        builder.setPositiveButton("Go To Home", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 finish();
+            }
+        });
+        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
             }
         });
         builder.show();
@@ -192,7 +205,6 @@ public class SignUpActivity extends AppCompatActivity {
         if (password.matches(repassword)){
             return true;
         }else {
-            USignUpPassword.setError("Password doesn't match");
             USignUpRetypePassword.setError("Password doesn't match");
             USignUpRetypePassword.requestFocus();
             return false;
@@ -218,32 +230,32 @@ public class SignUpActivity extends AppCompatActivity {
 //   end email validate
 
     private boolean validate() {
-        boolean isUsernameEmpty = 0<USignUpUsername.getText().toString().trim().length();
-        boolean isEmailEmpty = validateEmail();
-        boolean isPasswordEmpty = validatePassword();
-        boolean isPasswordMatch = matchPW();
-        boolean isContactsEmpty = 10==USignUpContacts.getText().toString().trim().length();
+        boolean isNotUsernameEmpty = 0<USignUpUsername.getText().toString().trim().length();
+        boolean isNotEmailEmpty = validateEmail();
+        boolean isNotPasswordEmpty = validatePassword();
+        boolean isNotPasswordMatch = matchPW();
+        boolean isNotContactsEmpty = 10==USignUpContacts.getText().toString().trim().length();
 
-        if (!isContactsEmpty){
+        if (!isNotContactsEmpty){
             USignUpContacts.setError("Please Enter Valid Number");
             USignUpContacts.requestFocus();
         }
-        if (!isPasswordEmpty){
+        if (!isNotPasswordEmpty){
             USignUpPassword.setError("Password is required");
             USignUpPassword.requestFocus();
         }
-        if (!isEmailEmpty){
+        if (!isNotEmailEmpty){
             USignUpEmail.setError("Email is required");
             USignUpEmail.requestFocus();
         }
-        if (!isUsernameEmpty){
+        if (!isNotUsernameEmpty){
             USignUpUsername.setError("Username is required");
             USignUpUsername.requestFocus();
         }
 
 
 
-        return isUsernameEmpty && isEmailEmpty && isPasswordEmpty && isPasswordMatch && isContactsEmpty;
+        return isNotUsernameEmpty && isNotEmailEmpty && isNotPasswordEmpty && isNotPasswordMatch && isNotContactsEmpty;
 
     }
 

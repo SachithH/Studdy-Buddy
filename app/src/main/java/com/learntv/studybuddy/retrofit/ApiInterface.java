@@ -1,9 +1,12 @@
 package com.learntv.studybuddy.retrofit;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 //    For post request
@@ -13,7 +16,7 @@ public interface ApiInterface {
             @Field("email") String email,
             @Field("password") String password,
             @Field("username") String username,
-            @Field("contact") int contact
+            @Field("contact") String contact
     );
 
     @FormUrlEncoded
@@ -24,13 +27,16 @@ public interface ApiInterface {
     );
 
     @FormUrlEncoded
-    @POST("/studybuddy/v1/session/")
-    Call<SignInResponse> session(
+    @POST("/studybuddy/v1/session")
+    Call<ValidateToken> auhtenticate(
             @Field("token") String token
     );
 
     @FormUrlEncoded
-    @POST("/studybuddy/v1/vod/grade-06/Syllabus-2016/sinhala/")
-    Call<VODResponse> grade6_2011_sinhalaList(
-            @Field("token") String token);
+    @POST("/studybuddy/v1/vod/{grades}/{syllabus}/{subject}/")
+    Call<List<VODResponse>> video_list(
+            @Field("token") String token,
+            @Path("grades") String grades,
+            @Path("syllabus") String syllabus,
+            @Path("subject") String subject);
 }

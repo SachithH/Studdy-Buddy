@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.learntv.studybuddy">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_PROFILE"/>
 
     <application
         android:allowBackup="true"
@@ -14,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyBuddy"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".MCQActivity"
+            android:exported="false" />
         <activity
             android:name=".PlayingVideoActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="false" />
         <activity
             android:name=".VODListActivity"
@@ -37,9 +39,11 @@
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="keyboard"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

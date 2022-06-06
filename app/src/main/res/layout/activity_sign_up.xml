@@ -4,25 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     tools:context=".SignUpActivity"
     android:background="@drawable/gradient_background">
-
-    <ScrollView
-        android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <!--Username-->
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/SignUpUsername"
                 android:layout_width="@dimen/sign_input_width"
@@ -106,36 +103,30 @@
                 android:text="@string/sign_up"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sign_btn_fonts" />
+
             <!--Sign Up Button End-->
 
             <!--Facebook Button-->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/FBBtn"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/sign_input_height"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/facebook"
-                android:drawableStart="@drawable/fb_logo"
-                android:text="Connect with Facebook"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sign_btn_fonts" />
             <!--Facebook Button End-->
 
             <!--Google Button-->
-            <com.google.android.gms.common.SignInButton
-                android:id="@+id/sign_in_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/google"/>
             <!--Google Button-->
-
         </androidx.appcompat.widget.LinearLayoutCompat>
-        <!--Linear Layout End-->
+    <!--Linear Layout End-->
 
-    </ScrollView>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+    android:id="@+id/progress_circular"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:indeterminate="true"
+    android:visibility="invisible"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,30 +2,26 @@ package com.learntv.studybuddy;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.MediaController;
-import android.widget.Toast;
 import android.widget.VideoView;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.learntv.studybuddy.support.hideSystemBars;
@@ -55,25 +51,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Add Video
-        mVideoView = (VideoView) findViewById(R.id.bgVideoView);
-
-        if (mediaController == null) {
-            mediaController = new MediaController(MainActivity.this);
-            mediaController.setAnchorView(mVideoView);
-        }
-
-        mVideoView.setMediaController(mediaController);
-        mVideoView.setVideoURI(Uri.parse("android.resource://" +
-                getPackageName() + "/" +
-                R.raw.bg_video));
-
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.setLooping(true);
-            }
-        });
-        mVideoView.start();
+//        mVideoView = (VideoView) findViewById(R.id.bgVideoView);
+//
+//        if (mediaController == null) {
+//            mediaController = new MediaController(MainActivity.this);
+//            mediaController.setAnchorView(mVideoView);
+//        }
+//
+//        mVideoView.setMediaController(mediaController);
+//        mVideoView.setVideoURI(Uri.parse("android.resource://" +
+//                getPackageName() + "/" +
+//                R.raw.bg_video));
+//
+//        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            @Override
+//            public void onPrepared(MediaPlayer mediaPlayer) {
+//                mediaPlayer.setLooping(true);
+//            }
+//        });
+//        mVideoView.start();
         // video player end
 
         //Start Sign Up Activity
@@ -171,13 +167,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mVideoView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mVideoView.start();
     }
 
     @Override
@@ -188,13 +182,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        mVideoView.start();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mVideoView.start();
     }
 
 

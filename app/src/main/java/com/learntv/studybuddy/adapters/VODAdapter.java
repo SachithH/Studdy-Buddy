@@ -1,5 +1,6 @@
 package com.learntv.studybuddy.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -14,19 +15,30 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.learntv.studybuddy.R;
 import com.learntv.studybuddy.retrofit.VODResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder> {
-    private final List<com.learntv.studybuddy.retrofit.List> dataList;
+public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>{
     Context context;
-    VODResponse VODResponseData;
+    List<VODResponse> VODResponseData;
+    List<String> allDesc = new ArrayList<>();
     RecyclerViewClickListener listener;
 
-    public VODAdapter(Context context, VODResponse VODResponseData, RecyclerViewClickListener listener) {
+    public VODAdapter(Context context, List<VODResponse> VODResponseData, RecyclerViewClickListener listener) {
         this.VODResponseData = VODResponseData;
         this.context = context;
-        this.dataList = VODResponseData.getList();
         this.listener = listener;
+    }
+
+    // method for filtering our recyclerview items.
+    @SuppressLint("NotifyDataSetChanged")
+    public void filterList(ArrayList<VODResponse> filterllist) {
+        // below line is to add our filtered
+        // list in our course array list.
+        VODResponseData = filterllist;
+        // below line is to notify our adapter
+        // as change in recycler view data.
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -39,17 +51,18 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
+        allDesc.add(VODResponseData.get(position).getLessonE());
         //set the data
-        holder.name.setText(dataList.get(position).getVideo());
-        if(dataList.get(position).getImage()!=null){
+        holder.name.setText(VODResponseData.get(position).getVideo().getUrl());
+        if(VODResponseData.get(position).getImage()!=null){
             holder.thumb.setImageURI(null);
-            holder.thumb.setImageURI(Uri.parse(dataList.get(position).getImage()));
+            holder.thumb.setImageURI(Uri.parse(VODResponseData.get(position).getImage()));
         }
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size();
+        return VODResponseData.size();
     }
 
     public class UsersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -67,9 +80,13 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
         public void onClick(View view) {
             listener.onClick(view, getBindingAdapterPosition());
         }
+
+
     }
 
     public interface RecyclerViewClickListener{
         void onClick(View v, int position);
     }
+
+
 }

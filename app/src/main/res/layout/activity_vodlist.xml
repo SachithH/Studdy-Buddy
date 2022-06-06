@@ -8,12 +8,32 @@
     tools:context=".VODListActivity"
     android:background="@drawable/gradient_background">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewVOD"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        style="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:padding="10dp"/>
+        android:background="#6C0101"
+        android:fitsSystemWindows="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Episodes"
+            app:titleTextColor="@color/white" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewVOD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -13,4 +13,9 @@
     <color name="red">#6C0101</color>
     <color name="fb">#4267B2</color>
     <color name="gray">#888888</color>
+    <color name="start">#561DC1</color>
+    <color name="center">#34056A</color>
+    <color name="end">#210464</color>
+    <color name="accent">#FFEE0A</color>
+    <color name="signBtnTxt">#37246d</color>
 </resources>

@@ -1,10 +1,8 @@
 package com.learntv.studybuddy;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -20,6 +18,16 @@ public class GradesActivity extends AppCompatActivity {
     ArrayList<Integer> logos = new ArrayList<>();
     private CustomAdapter.RecyclerViewClickListener listener;
     private String token;
+    final private String[] grades = {
+            "grade-06",
+            "grade-07",
+            "grade-08",
+            "grade-09",
+            "grade-10",
+            "grade-11",
+            "grade-12",
+            "grade-13"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +39,7 @@ public class GradesActivity extends AppCompatActivity {
             token = extras.getString("token");
         }
 
-        //add item to arraylist
+        //add image item to arraylist
         setInfo();
 
         //Set Adapter
@@ -50,11 +58,13 @@ public class GradesActivity extends AppCompatActivity {
 
     private void setOnClicklistener() {
         listener = new CustomAdapter.RecyclerViewClickListener() {
+
             @Override
             public void onClick(View v, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("POSITION",position);
                 bundle.putString("token",token);
+                bundle.putString("grade",grades[position]);
                 Intent intent = new Intent(getApplicationContext(),SyllabusActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -71,6 +81,11 @@ public class GradesActivity extends AppCompatActivity {
         logos.add(R.drawable.grade11);
         logos.add(R.drawable.grade12);
         logos.add(R.drawable.grade13);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
     }
 
 }

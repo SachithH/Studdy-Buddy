@@ -22,17 +22,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <VideoView
-                android:id="@+id/bgVideoView"
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginTop="0dp" />
+<!--            <VideoView-->
+<!--                android:id="@+id/bgVideoView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="220dp"-->
+<!--                android:layout_marginTop="0dp" />-->
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+<!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
 
         <TextView
             android:id="@+id/doYou"
@@ -59,7 +59,7 @@
             android:background="@drawable/signup_btns"
             android:text="@string/sign_up"
             android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts" />
+            android:textSize="25sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/signIn"
@@ -69,7 +69,7 @@
             android:background="@drawable/signup_btns"
             android:text="@string/sign_in"
             android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts" />
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/textView"
