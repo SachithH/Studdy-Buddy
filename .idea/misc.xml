@@ -9,13 +9,14 @@
         <entry key="app/src/main/res/drawable/google.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/gradient_background.xml" value="0.142" />
         <entry key="app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.143" />
+        <entry key="app/src/main/res/drawable/signup_btns.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_grades.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_gridview.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_mcq.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_playing_video.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_in.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_subjects.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_syllabus.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_vodlist.xml" value="0.25" />
