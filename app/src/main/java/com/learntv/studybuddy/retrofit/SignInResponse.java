@@ -2,16 +2,16 @@ package com.learntv.studybuddy.retrofit;
 
 
 public class SignInResponse {
-    private Boolean success;
+    private String success;
     private String token;
     private String message;
     private int errorcode;
 
-    public Boolean getSuccess() {
+    public String getSuccess() {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
+    public void setSuccess(String success) {
         this.success = success;
     }
 

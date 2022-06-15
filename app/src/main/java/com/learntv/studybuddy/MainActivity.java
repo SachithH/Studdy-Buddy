@@ -24,14 +24,22 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.learntv.studybuddy.retrofit.Api;
+import com.learntv.studybuddy.retrofit.SignIn;
 import com.learntv.studybuddy.support.hideSystemBars;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private View decorView;
     private VideoView mVideoView;
     private MediaController mediaController;
     private hideSystemBars hidingStatus;
+    private String clientId = "390938103180-oohm564b8l2cgv3p5th3i095nv5h30sg.apps.googleusercontent.com";
     private GoogleSignInClient mGoogleSignInClient;
+    private SignIn googleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
         hidingStatus = new hideSystemBars();
 
         //hide status bar
-        decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            public void onSystemUiVisibilityChange(int visibility) {
-                if (visibility == 0) {
-                    decorView.setSystemUiVisibility(hidingStatus.hideSystemBars());
-                }
-            }
-        });
+//        decorView = getWindow().getDecorView();
+//        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+//            public void onSystemUiVisibilityChange(int visibility) {
+//                if (visibility == 0) {
+//                    decorView.setSystemUiVisibility(hidingStatus.hideSystemBars());
+//                }
+//            }
+//        });
 
         //Add Video
 //        mVideoView = (VideoView) findViewById(R.id.bgVideoView);
@@ -98,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 //      profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken("390938103180-oohm564b8l2cgv3p5th3i095nv5h30sg.apps.googleusercontent.com")
                 .build();
 
         // Build a GoogleSignInClient with the options specified by gso.
@@ -120,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
         googleActivityResult.launch(signInIntent);
     }
 
+    private void signInGoo() {
+        Intent signIntent = new Intent(getApplicationContext(),GoogleLogin.class);
+        startActivity(signIntent);
+    }
+
     ActivityResultLauncher<Intent> googleActivityResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -130,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
                         Intent data = result.getData();
                         Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                         handleSignInResult(task);
+                    }else {
+                        Log.d("Sign In", "Failed ");
                     }
                 }
             });
@@ -137,21 +153,52 @@ public class MainActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> task) {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
-
+            Log.d("Sign In", "SignInResult:Login Success");
             // Signed in successfully, show authenticated UI.
             updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.d("Sign In", "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
         }
     }
 
     private void updateUI(GoogleSignInAccount account) {
         if (account!=null){
-
+            String googleToken = account.getIdToken();
+            signInWithGoogle(googleToken,clientId);
         }
+    }
+
+    private void signInWithGoogle(String googleToken, String clientId) {
+        Api.getClient().googleApi(
+                clientId,
+                googleToken
+        ).enqueue(new Callback<SignIn>() {
+            @Override
+            public void onResponse(Call<SignIn> call, Response<SignIn> response) {
+                googleSignIn = response.body();
+                if (googleSignIn != null) {
+                    if (googleSignIn.getStatus().equals("success")) {
+                        loginToGrades(
+                                googleSignIn.getData().getToken());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignIn> call, Throwable t) {
+                Log.d("OnFailed", "Failed");
+            }
+        });
+    }
+
+    private void loginToGrades(String token) {
+        Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
+        intent.putExtra("token",token);
+        startActivity(intent);
+        finish();
     }
 
 //    End of the Google Sign In
@@ -159,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
-            decorView.setSystemUiVisibility(hidingStatus.hideSystemBars());
-        }
+//        if (hasFocus){
+//            decorView.setSystemUiVisibility(hidingStatus.hideSystemBars());
+//        }
     }
 
     @Override

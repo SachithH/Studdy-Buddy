@@ -14,6 +14,10 @@
         android:theme="@style/Theme.StudyBuddy"
         android:usesCleartextTraffic="true">
         <activity
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:name=".otpValidate"
+            android:exported="false" />
+        <activity
             android:name=".GoogleLogin"
             android:exported="false" />
         <activity

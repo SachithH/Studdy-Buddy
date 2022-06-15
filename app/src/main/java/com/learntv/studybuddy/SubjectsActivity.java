@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class SubjectsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<Integer> logos = new ArrayList<>();
+    ArrayList<String> logos = new ArrayList<>();
     private CustomAdapter.RecyclerViewClickListener listener;
     private String token;
     private String syllabus;
@@ -62,7 +62,7 @@ public class SubjectsActivity extends AppCompatActivity {
         GridLayoutManager gridView = new GridLayoutManager(getApplicationContext(), 3, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridView);
         //Create an object of custom Adapter
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), logos, listener);
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), logos, listener, 1);
         recyclerView.setAdapter(customAdapter);
     }
 
@@ -82,14 +82,29 @@ public class SubjectsActivity extends AppCompatActivity {
         };
     }
 
+//    private void setInfo() {
+//        logos.add(R.drawable.sinhala);
+//        logos.add(R.drawable.science);
+//        logos.add(R.drawable.maths);
+//        logos.add(R.drawable.history);
+//        logos.add(R.drawable.geography);
+//        logos.add(R.drawable.english);
+//        logos.add(R.drawable.tamil);
+//        logos.add(R.drawable.ict);
+//    }
+
     private void setInfo() {
-        logos.add(R.drawable.sinhala);
-        logos.add(R.drawable.science);
-        logos.add(R.drawable.maths);
-        logos.add(R.drawable.history);
-        logos.add(R.drawable.geography);
-        logos.add(R.drawable.english);
-        logos.add(R.drawable.tamil);
-        logos.add(R.drawable.ict);
+        logos.add("6");
+        logos.add("7");
+        logos.add("8");
+        logos.add("9");
+        logos.add("10");
+        logos.add("11");
+        logos.add("12");
+        logos.add("13");
+        logos.add("12");
+        logos.add("13");
+        logos.add("12");
+        logos.add("13");
     }
 }

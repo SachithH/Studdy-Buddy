@@ -10,6 +10,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <style name="Grades" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:fontFamily">@font/fm_ganganee</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/start</item>
+    </style>
     <style name="SyllabusText" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textSize">30sp</item>
         <item name="android:textColor">@color/white</item>
@@ -23,7 +28,13 @@
     </style>
     
     <style name="inputBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="hintTextColor">@color/white</item>
+        <item name="boxCornerRadiusTopStart">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+    </style>
+
+    <style name="sysBackInputBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="boxCornerRadiusTopStart">20dp</item>
         <item name="boxCornerRadiusTopEnd">20dp</item>
         <item name="boxCornerRadiusBottomStart">20dp</item>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".otpValidate"
+    android:background="@drawable/gradient_background">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OTP has been sent to 07xxxxxxxx number \n Enter OTP within 60 seconds"
+            android:textAlignment="center"/>
+
+        <!--Username-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otpTextField"
+            android:layout_width="@dimen/sign_input_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:hint="Enter the OTP Code"
+            style="@style/sysBackInputBox"
+            app:hintTextColor="@color/black"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mobileNumber"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:autofillHints="Eg: Malith"
+                android:inputType="text"
+                android:singleLine="true"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Username End-->
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time : "
+                android:textAlignment="center"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60 s"
+                android:textAlignment="center"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--Sign Up Button-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/verifyBtn"
+            style="@style/whiteBtn"
+            android:layout_width="@dimen/sign_input_width"
+            android:layout_height="@dimen/sign_input_height"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/signup_btns"
+            android:text="verify"
+            android:visibility="visible" />
+
+        <!--Sign Up Button End-->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,34 +21,44 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.412">
 
-        <!--Email-->
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/emailIn"
+        <!--Username-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField"
             android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/inputs"
-            android:hint="Enter Email"
-            android:inputType="textEmailAddress"
-            android:singleLine="true"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray" />
-        <!--Email End-->
+            android:layout_height="wrap_content"
+            android:hint="Email or Mobile"
+            style="@style/inputBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailIn"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:inputType="text"
+                android:singleLine="true"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!--Username End-->
 
         <!--Password-->
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/passwordIn"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField3"
             android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/inputs"
-            android:hint="Enter Password"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/signBtnMargin"
+            android:hint="Password"
+            style="@style/inputBox"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordIn"
+                android:layout_width="@dimen/sign_input_width"
+                android:layout_height="@dimen/sign_input_height"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray" />
+        </com.google.android.material.textfield.TextInputLayout>
         <!--Password End-->
 
         <!--Sign In Button-->
@@ -58,9 +68,8 @@
             android:layout_height="@dimen/sign_input_height"
             android:layout_marginTop="35dp"
             android:background="@drawable/signup_btns"
-            android:text="@string/sign_in"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sign_btn_fonts" />
+            style="@style/yellowBtn"
+            android:text="@string/sign_in" />
 
         <CheckBox
             android:id="@+id/rememberMe"

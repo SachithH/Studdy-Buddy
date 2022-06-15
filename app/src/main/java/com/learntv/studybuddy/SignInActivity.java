@@ -2,6 +2,7 @@ package com.learntv.studybuddy;
 
 import static com.learntv.studybuddy.PasswordHashing.createHash;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +17,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputLayout;
 import com.learntv.studybuddy.retrofit.Api;
-import com.learntv.studybuddy.retrofit.SignInResponse;
+import com.learntv.studybuddy.retrofit.SignIn;
 import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.hideSystemBars;
 
@@ -40,11 +43,14 @@ public class SignInActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private CheckBox rememberMe;
-    private SignInResponse signUpResponseData;
+    private SignIn signUpResponseData;
     private String hashPW;
     private String errors = "Something went wrong. Please try again Later";
     private CircularProgressIndicator circularProgress;
     private PrefManager prefManager;
+    private MaterialAlertDialogBuilder builder;
+    private final String apiKey = "be2f97570be40d5595fddaa64995b6534e6bae5ba9e86ed0";
+    private final String apiSecret = "lu55mgL5sIuDNcxCfXOkydElrfr6ehxyhrNsB8aBqe0ASPIX9XB6c5k8+4NfV15SMv0aipGd0gtzwbrDEqVf3T4A";
 
 
     @Override
@@ -136,13 +142,8 @@ public class SignInActivity extends AppCompatActivity {
                 handler.post(()->{
                         signIn(emailStr,hashPW);
                 });
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showMessages("Can't connect right now");
-                    }
-                },
-                        4000);
+                handler.postDelayed(() -> Toast.makeText(SignInActivity.this, "Unable to connect right now", Toast.LENGTH_LONG).show(),
+                        30000);
             });
 
         }
@@ -195,29 +196,31 @@ public class SignInActivity extends AppCompatActivity {
 //    Sign In Process
     private void signInWithServer(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         circularProgress.setVisibility(View.VISIBLE);
-
+        Log.d("signInWithServer: ",password);
         (Api.getClient().login(
                 email,
-                password
-        )).enqueue(new Callback<SignInResponse>() {
+                password,
+                apiKey,
+                apiSecret
+        )).enqueue(new Callback<SignIn>() {
             @Override
-            public void onResponse(@NonNull Call<SignInResponse> call, @NonNull Response<SignInResponse> response) {
+            public void onResponse(@NonNull Call<SignIn> call, @NonNull Response<SignIn> response) {
                 signUpResponseData = response.body();
                 if (signUpResponseData != null) {
-                    if(signUpResponseData.getSuccess()){
+                    if(signUpResponseData.getStatus().equals("success")){
                         if (rememberMe.isChecked()){saveLoginDetails(email,hashPW);}
                         loginToGrades(
-                                signUpResponseData.getToken(),
+                                signUpResponseData.getData().getToken(),
                                 email);
                     }else{
                         circularProgress.setVisibility(View.INVISIBLE);
-                                showErrors();
+                                showErrors(signUpResponseData.getError().getStatusCode());
                         }
                 }
             }
 
             @Override
-            public void onFailure(Call<SignInResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<SignIn> call, @NonNull Throwable t) {
                 StackTraceElement[] stktrace
                         = t.getStackTrace();
                 for (int i=0; i<stktrace.length; i++){
@@ -238,32 +241,77 @@ public class SignInActivity extends AppCompatActivity {
         prefManager.saveLoginDetails(email,hashPW);
     }
 
-    private void showErrors() {
-           switch (signUpResponseData.getErrorcode()){
-               case 100:
+    private void showErrors(String errorCode) {
+           switch (errorCode){
+               case "1000":
                    errors = "Internal server error. Please try again Later";
                    break;
-               case 101:
+               case "1001":
                    errors = "Username or Password incorrect";
+                   goToActivation(errors);
                    break;
-               case 102:
+               case "1002":
                    errors = "Please enter email correct and try again";
                    break;
-               case 103:
+               case "1003":
                    errors = "Account not activated";
                    break;
-               case 104:
+               case "1004":
                    errors = "Login expired. Please Sign In";
                    break;
-               case 105:
+               case "1005":
                    errors = "Token of session is not provided";
+                   break;
+               case "1006":
+                   errors = "Parameter missing";
+                   break;
+               case "1007":
+                   errors = "Mobile number required";
+                   break;
+               case "1008":
+                   errors = "User has been already registered. But activation has not been verified.";
+                   goToActivation(errors);
+                   break;
+               case "1009":
+                   errors = "Registration rejected, Email/Mobile found";
                    break;
                default:
                    errors = "something went wrong. Please try again later";
            }
-               showMessages(errors);
+               if(!errorCode.equals("1008")&&!errorCode.equals("1001")){
+                   showMessages(errors);}
 
         }
+
+    private void goToActivation(String error) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignInActivity.this);
+        builder.setCancelable(false);
+        @SuppressLint("InflateParams")
+        View mobileFrag = getLayoutInflater().inflate(R.layout.mobile_fragment,null);
+        TextInputLayout mobileTIL = mobileFrag.findViewById(R.id.mobileTIL);
+        EditText mobileNumberET = mobileFrag.findViewById(R.id.mobileNumber);
+        Button verifyBtn = mobileFrag.findViewById(R.id.verifyBtn);
+        verifyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String mobileNumber = mobileNumberET.getText().toString().trim();
+                if (mobileNumber.length()!=10){
+                    mobileTIL.setHelperTextEnabled(true);
+                    mobileTIL.setError("Please enter valid mobile number");
+                }else {
+                    mobileTIL.setHelperTextEnabled(false);
+                    Intent intent = new Intent(SignInActivity.this,otpValidate.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mobile",mobileNumber);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
+        builder.setCancelable(true);
+        builder.setView(mobileFrag);
+        builder.show();
+    }
 
     private void loginToGrades(String token,String email) {
         Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
@@ -273,9 +321,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void sureMessage() {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignInActivity.this);
+        builder = new MaterialAlertDialogBuilder(SignInActivity.this);
         builder.setMessage("");
-        builder.setCancelable(false);
         builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
