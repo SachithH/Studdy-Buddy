@@ -1,34 +1,35 @@
 package com.learntv.studybuddy;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import com.learntv.studybuddy.adapters.CustomAdapter;
+import com.learntv.studybuddy.adapters.SubjectAdapter;
 
 import java.util.ArrayList;
 
 public class SubjectsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<String> logos = new ArrayList<>();
-    private CustomAdapter.RecyclerViewClickListener listener;
+    ArrayList<Integer> logos = new ArrayList<>();
+    private SubjectAdapter.RecyclerViewClickListener listener;
     private String token;
-    private String syllabus;
-    private String grade;
+    private int syllabusId;
+    private int gradeId;
     private String[] subjects = {
-            "sinhala",
-            "science",
-            "maths",
-            "history",
-            "geography",
             "english",
-            "tamil",
+            "geography",
+            "history",
             "ict",
+            "maths",
+            "science",
+            "sinhala",
+            "tamil",
 
     };
 
@@ -39,17 +40,10 @@ public class SubjectsActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            grade = extras.getString("grade");
-            syllabus = extras.getString("syllabus");
+            gradeId = extras.getInt("gradeId");
+            syllabusId = extras.getInt("syllabusId");
             token = extras.getString("token");
         }
-
-//        Button GradesBtn = (Button)findViewById(R.id.GradesBtn);
-//        GradesBtn.setText(Grade);
-//        Button SylBtn = (Button)findViewById(R.id.SylBtn);
-//        SylBtn.setText(Syllabus);
-
-        //add item to arraylist
         setInfo();
 
         //Set Adapter
@@ -62,49 +56,36 @@ public class SubjectsActivity extends AppCompatActivity {
         GridLayoutManager gridView = new GridLayoutManager(getApplicationContext(), 3, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(gridView);
         //Create an object of custom Adapter
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), logos, listener, 1);
+        SubjectAdapter customAdapter = new SubjectAdapter(getApplicationContext(), logos, listener, 1);
         recyclerView.setAdapter(customAdapter);
     }
 
     private void setOnClicklistener() {
-        listener = new CustomAdapter.RecyclerViewClickListener() {
+        listener = new SubjectAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int pos) {
                 Bundle bundle = new Bundle();
                 bundle.putString("token",token);
-                bundle.putString("grade",grade);
-                bundle.putString("syllabus",syllabus);
-                bundle.putString("subject",subjects[pos]);
+                bundle.putInt("gradeId",gradeId);
+                bundle.putInt("syllabusId",syllabusId);
+                bundle.putInt("subjectId",pos+1);
                 Intent intent = new Intent(getApplicationContext(),VODListActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                Log.d("Token: ",token);
             }
         };
     }
 
-//    private void setInfo() {
-//        logos.add(R.drawable.sinhala);
-//        logos.add(R.drawable.science);
-//        logos.add(R.drawable.maths);
-//        logos.add(R.drawable.history);
-//        logos.add(R.drawable.geography);
-//        logos.add(R.drawable.english);
-//        logos.add(R.drawable.tamil);
-//        logos.add(R.drawable.ict);
-//    }
-
     private void setInfo() {
-        logos.add("6");
-        logos.add("7");
-        logos.add("8");
-        logos.add("9");
-        logos.add("10");
-        logos.add("11");
-        logos.add("12");
-        logos.add("13");
-        logos.add("12");
-        logos.add("13");
-        logos.add("12");
-        logos.add("13");
+        logos.add(R.drawable.english);
+        logos.add(R.drawable.geography);
+        logos.add(R.drawable.history);
+        logos.add(R.drawable.ict);
+        logos.add(R.drawable.maths);
+        logos.add(R.drawable.science);
+        logos.add(R.drawable.sinhala);
+        logos.add(R.drawable.tamil);
     }
+
 }

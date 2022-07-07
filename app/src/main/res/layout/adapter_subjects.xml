@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    tools:context=".GradesActivity"
+    android:layout_marginRight="4dp"
+    android:layout_marginLeft="4dp"
+    android:alpha="0.6"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/fb_logo"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -10,10 +10,12 @@
         <item name="colorSecondary">@color/start</item>
         <item name="colorSecondaryVariant">@color/center</item>
         <item name="colorOnSecondary">@color/end</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/start</item>
         <!-- Customize your theme here. -->
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@color/nofill</item>
+
     </style>
 
     <style name="yellowBtn" parent="Widget.AppCompat.Button">
@@ -28,5 +30,6 @@
         <item name="backgroundTint">@color/white</item>
         <item name="android:textSize">30sp</item>
         <item name="cornerRadius">100dp</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
     </style>
 </resources>

@@ -10,4 +10,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="TermsConditions">I agree to Study Buddy\'s <a href="https://api.learntv.lk/studybuddy/v1/pages/privacy">Privacy Policy</a> and \n<a style="text-decoration:none" href="https://api.learntv.lk/studybuddy/v1/pages/privacy">Terms of Service</a></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mcqCountText">/5</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="wrong">වැරදියි</string>
+    <string name="correct">නිවැරදියි</string>
+    <string name="enter_otp_within_60_seconds">Enter OTP within 60 seconds</string>
 </resources>

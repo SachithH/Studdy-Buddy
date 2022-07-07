@@ -2,125 +2,39 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="top"
-    tools:context=".MainActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="-6dp"
     android:background="@drawable/gradient_background"
-    android:fitsSystemWindows="true">
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:fitsSystemWindows="true">
-
-<!--        <androidx.appcompat.widget.LinearLayoutCompat-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <VideoView-->
-<!--                android:id="@+id/bgVideoView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="220dp"-->
-<!--                android:layout_marginTop="0dp" />-->
-
-<!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
-
-        <TextView
-            android:id="@+id/doYou"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/for_more_details"
-            android:textAppearance="@style/ganganeeText" />
-
-        <TextView
-            android:id="@+id/aboutThis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/watch_this_video"
-            android:textAppearance="@style/malithiText" />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signUp"
-            style="@style/yellowBtn"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:background="@drawable/signup_btns"
-            android:text="@string/sign_up" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signIn"
-            style="@style/whiteBtn"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/signup_btns"
-            android:text="@string/sign_in"/>
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:text="or"
-            android:textColor="@color/white"
-            tools:text="or" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
-
-            <ImageButton
-                android:id="@+id/googleSignInBtn"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/google_logo"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
-                app:srcCompat="@drawable/google_logo"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_margin="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/fb_logo"
-                android:minHeight="48dp"
-                android:minWidth="48dp"
-                app:srcCompat="@drawable/fb_logo" />
-        </LinearLayout>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="@string/all_rights_reserved"
-        android:textColor="@color/white"
+        android:text="Study\nBuddy"
+        android:textAlignment="center"
+        android:textAppearance="@style/gradesText"
+        android:textColor="@color/accent"
+        android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular_splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView3"
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

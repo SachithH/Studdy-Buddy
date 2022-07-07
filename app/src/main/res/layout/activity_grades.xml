@@ -10,80 +10,129 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/gradient_background">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:openDrawer="start">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:fitsSystemWindows="true"
+                        android:gravity="start|bottom"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="280dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tnf.a fY%a‚h \nf;darkak'"
+                                android:textAlignment="center"
+                                android:textAppearance="@style/ganganeeText" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="b.ekqu wdrïN lrkak"
+                                android:textAppearance="@style/malithiText" />
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="15dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:clipChildren="false"
+                                android:clipToPadding="false"
+                                android:nestedScrollingEnabled="false"
+                                android:padding="10dp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerView2"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="50dp"
+                                android:layout_weight="1"
+                                android:nestedScrollingEnabled="false"
+                                android:padding="10dp" />
+                        </LinearLayout>
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.core.widget.NestedScrollView>
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:fitsSystemWindows="true"
-                android:gravity="start|bottom"
-                android:orientation="vertical">
+                style="@style/Theme.AppCompat.DayNight.NoActionBar"
+                app:elevation="0dp"
+                android:background="@color/nofill"
+                android:fitsSystemWindows="true">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:layout_height="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_baseline_menu_24"
+                    android:elevation="0dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:text="Tnf.a fY%a‚h \nf;darkak'"
-                        android:textAppearance="@style/ganganeeText" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="b.ekqu wdrïN lrkak"
-                        android:textAppearance="@style/malithiText" />
+            </com.google.android.material.appbar.AppBarLayout>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                <LinearLayout android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
+        <com.google.android.material.navigation.NavigationView
+            android:fitsSystemWindows="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:layout_gravity="start" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        android:layout_weight="1"
-                        android:padding="10dp" />
+    </androidx.drawerlayout.widget.DrawerLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView2"
-                        android:layout_marginTop="50dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:layout_weight="1"
-                        android:padding="10dp" />
-                </LinearLayout>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.core.widget.NestedScrollView>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_circular_grades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

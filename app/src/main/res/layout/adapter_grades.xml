@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
     android:clipChildren="false"
-    android:layout_marginBottom="20dp">
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="20dp"
+    android:padding="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="150dp"
@@ -16,31 +18,34 @@
         android:clipChildren="false"
         android:backgroundTint="@color/white"
         android:elevation="8dp"
-        app:cardElevation="10dp"
+        app:cardElevation="6dp"
         app:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_gravity="center">
+            android:gravity="center">
 
 
         <TextView
             android:id="@+id/grade"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="6"
-            android:textColor="@color/start"
-            android:textSize="100sp"
-            android:layout_gravity="center"/>
+            android:textAppearance="@style/gradesText"
+            android:textColor="@color/end"
+            android:textSize="80sp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="3"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="fY%a‚h"
             android:textAppearance="@style/Grades"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"/>
+            android:layout_weight="1"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

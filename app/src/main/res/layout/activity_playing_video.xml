@@ -7,19 +7,79 @@
     android:keepScreenOn="true"
     tools:context=".PlayingVideoActivity">
 
-    <com.google.android.exoplayer2.ui.StyledPlayerView
-        android:id="@+id/player_view"
+    <TextView
+        android:id="@+id/video_heading"
+        style="@style/unGanganeeText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:resize_mode="fit"
-        app:show_timeout="2000"
-        app:use_controller="true"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/player_linear_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/player_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:show_buffering="when_playing"
-        app:show_shuffle_button="true"
-        android:fitsSystemWindows="true"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.exoplayer2.ui.StyledPlayerView
+            android:id="@+id/player_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:resize_mode="fit"
+            app:show_buffering="when_playing"
+            app:show_shuffle_button="true"
+            app:show_timeout="2000"
+            app:use_controller="true" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player_linear_layout"
+        android:orientation="vertical"
+        app:layout_constraintVertical_bias="0.75">
+
+        <TextView
+            android:id="@+id/video_player_content"
+            style="@style/unGanganeeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="අන්තර්ගතය"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/longDesc"
+            style="@style/unGanganeeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="12sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

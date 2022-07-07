@@ -126,16 +126,30 @@
         </com.google.android.material.textfield.TextInputLayout>
         <!--Retype Password End-->
 
-
-<!--        CheckBox-->
-        <CheckBox
-            android:id="@+id/TermsAndConditions"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:text="@string/TermsConditions"
-            android:textColorLink="@color/fb" />
-<!--        CheckBox End-->
+            android:layout_marginTop="10dp">
+
+        <!--        CheckBox-->
+                <CheckBox
+                    android:id="@+id/TermsAndConditions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:textColorLink="@color/fb"
+                    android:layout_weight="1"/>
+        <!--        CheckBox End-->
+
+<!--            Terms and conditions-->
+            <TextView
+                android:id="@+id/TermsAndConditionsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/TermsConditions"
+                android:layout_weight="4"
+                />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
 
         <!--Sign Up Button-->

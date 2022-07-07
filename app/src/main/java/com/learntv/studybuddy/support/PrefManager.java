@@ -18,6 +18,13 @@ public class PrefManager {
         editor.apply();
     }
 
+    public void saveLoginToken(String token){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Token",token);
+        editor.apply();
+    }
+
     public String getEmail() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Email","");
@@ -26,6 +33,11 @@ public class PrefManager {
     public String getPassword(){
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("Password","");
+    }
+
+    public String getToken(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("Token","");
     }
 
     public boolean isUserLoggedOut() {

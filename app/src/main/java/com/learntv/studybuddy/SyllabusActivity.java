@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.learntv.studybuddy.support.TokenAuthenticate;
+
 public class SyllabusActivity extends AppCompatActivity implements View.OnClickListener {
     Bundle extra_details = new Bundle();
     int position = 0;
@@ -23,12 +25,13 @@ public class SyllabusActivity extends AppCompatActivity implements View.OnClickL
             "Grade 13"
     };
     private String token;
-    private String grade;
+    private int gradeId;
     private String[] syllabus = {
             "Syllabus-2011",
             "Syllabus-2016",
             "Syllabus-2023"
     };
+    private int syl_pos = 0;
 
 
 
@@ -39,10 +42,8 @@ public class SyllabusActivity extends AppCompatActivity implements View.OnClickL
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            grade = extras.getString("grade");
-            position = extras.getInt("POSITION");
+            gradeId = extras.getInt("gradeId");
             token = extras.getString("token");
-            Toast.makeText(SyllabusActivity.this,grade,Toast.LENGTH_SHORT).show();
         }
             Button GradeBtn = findViewById(R.id.GradesBtn);
             GradeBtn.setText(Grades[position]);
@@ -58,27 +59,30 @@ public class SyllabusActivity extends AppCompatActivity implements View.OnClickL
 
 
     }
+
+
+    private void setAction() {
+    }
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
-      int syl_pos = 0;
-        extra_details.putString("Syllabus","Syllabus 2011");
-        extra_details.putInt("POSITION",position);
         extra_details.putString("token",token);
-        extra_details.putString("grade",grade);
+        extra_details.putInt("gradeId",gradeId);
 
         switch(view.getId()){
             case R.id.Syllabus2011:
+                syl_pos = 2011;
                 break;
             case R.id.Syllabus2016:
-                syl_pos = 1;
+                syl_pos = 2016;
                 break;
             case R.id.Syllabus2023:
-                syl_pos = 2;
+                syl_pos = 2023;
                 break;
         }
 
-        extra_details.putString("syllabus",syllabus[syl_pos]);
+        extra_details.putInt("syllabusId",syl_pos);
         Intent intent = new Intent(getApplicationContext(),SubjectsActivity.class);
         intent.putExtras(extra_details);
         startActivity(intent);

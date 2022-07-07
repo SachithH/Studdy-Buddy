@@ -3,26 +3,74 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_view"
-    android:layout_gravity="top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/google">
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/VODThumb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_gravity="start"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginVertical="15dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
 
-    <ImageView
-        android:id="@+id/VODThumb"
-        android:layout_width="50dp"
-        android:layout_height="80dp"
-        android:layout_gravity="start"
-        android:src="@drawable/grade6" />
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:maxLines="1"/>
 
+            <TextView
+                android:id="@+id/shortDesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:ellipsize="end"
+                android:layout_weight="4"
+                android:maxLines="2"/>
 
-        <TextView
-            android:id="@+id/VODName"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:textSize="20sp"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                >
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/favouriteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="2dp"
+                    android:background="@color/nofill"
+                    android:src="@drawable/ic_baseline_favorite_border_40"
+                    />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

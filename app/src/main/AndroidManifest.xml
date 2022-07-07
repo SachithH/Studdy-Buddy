@@ -14,15 +14,17 @@
         android:theme="@style/Theme.StudyBuddy"
         android:usesCleartextTraffic="true">
         <activity
-            android:configChanges="orientation|screenSize|layoutDirection"
-            android:name=".otpValidate"
+            android:name=".McqEarningActivity"
             android:exported="false" />
         <activity
-            android:name=".GoogleLogin"
+            android:name=".otpValidate"
+            android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="false" />
         <activity
             android:name=".MCQActivity"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:exported="false"
+            android:turnScreenOn="true" />
         <activity
             android:name=".PlayingVideoActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
@@ -49,10 +51,13 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:configChanges="keyboard"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:exported="false"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

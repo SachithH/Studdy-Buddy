@@ -1,7 +1,5 @@
 package com.learntv.studybuddy.retrofit;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -79,15 +77,50 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("/studybuddy/v1/session")
-    Call<ValidateToken> auhtenticate(
+    Call<CommonResponse> auhtenticate(
             @Field("token") String token
     );
 
     @FormUrlEncoded
-    @POST("/studybuddy/v1/vod/{grades}/{syllabus}/{subject}/")
-    Call<List<VODResponse>> video_list(
+    @POST("/studybuddy/v1/session")
+    Call<GradesData> grades(
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret,
+            @Field("token") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/vod/getLessonList")
+    Call<VODResponse> video_list(
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret,
             @Field("token") String token,
-            @Path("grades") String grades,
-            @Path("syllabus") String syllabus,
-            @Path("subject") String subject);
+            @Field("grade_id") int gradeId,
+            @Field("subject_id") int subjectId,
+            @Field("syllabus_id") int syllabusId
+
+    );
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/vod/getLesson/")
+    Call<LessonResponse> lesson_data(
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret,
+            @Field("token") String token,
+            @Field("video_id") int videoId
+
+    );
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/student/learning/answer/")
+    Call<McqResponse> check_mcq(
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret,
+            @Field("token") String token,
+            @Field("question_id") int question_id,
+            @Field("option_id") int option_id,
+            @Field("video_id") int video_id
+
+    );
 }

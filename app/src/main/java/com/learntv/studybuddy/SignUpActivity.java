@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,7 +57,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         circularProgress = findViewById(R.id.progress_circular);
         circularProgress.setVisibility(View.INVISIBLE);
-
+        TextView termsAndConditionText = findViewById(R.id.TermsAndConditionsText);
+        termsCheckBox = findViewById(R.id.TermsAndConditions);
 
 
         USignUpUsername = findViewById(R.id.SignUpUsername);
@@ -208,15 +210,26 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-        setupHyperlink();
+
+        termsAndConditionText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (termsCheckBox.isChecked()){
+                    termsCheckBox.setChecked(false);
+                }else {
+                    termsCheckBox.setChecked(true);
+                }
+            }
+        });
+
+        setupHyperlink(termsAndConditionText);
 
     }
 
 
 
-    private void setupHyperlink() {
-        termsCheckBox = findViewById(R.id.TermsAndConditions);
-        termsCheckBox.setMovementMethod(LinkMovementMethod.getInstance());
+    private void setupHyperlink(TextView termsTextView) {
+        termsTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     //    Async Task is deprecated
@@ -233,95 +246,26 @@ public class SignUpActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 handler.post(()->{
-                    try {
-                        signUpEmailAndMobile(username, emailStr,hashPW,contactStr);
-
-                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-                        e.printStackTrace();
-                        showMessages("Sorry, we are unable to complete the sign up process now. Make sure you are connect with internet and try again later.");
-                    }
+                    circularProgress.setVisibility(View.INVISIBLE);
+                        otpVerification(username, emailStr, hashPW, contactStr);
                 });
             });
-
         }
+    }
+
+    private void otpVerification(String username, String email, String password, String contact) {
+        Intent intent = new Intent(getApplicationContext(),otpValidate.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("username",username);
+        bundle.putString("email",email);
+        bundle.putString("password",password);
+        bundle.putString("contact",contact);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public String createHashPW(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return createHash(email, password);
-    }
-
-
-
-
-
-    //    SIGN UP PROCESS
-    private void signUpEmailAndMobile(String signUpUsername, String signUpEmail, String hashPassword, String contact) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        if (validate()&&matchPW()) {
-
-
-            (Api.getClient().registerEmailAndMobile(
-                    signUpEmail,
-                    hashPassword,
-                    signUpUsername,
-                    contact,
-                    apiKey,
-                    apiSecret
-            )).enqueue(new Callback<SignUpResponse>() {
-                @Override
-                public void onResponse(@NonNull Call<SignUpResponse> call, @NonNull Response<SignUpResponse> response) {
-                    signUpResponseData = response.body();
-                    if (signUpResponseData != null) {
-                        if (signUpResponseData.getError()==null){
-                            showMessages(signUpResponseData.getData().getDescription());
-                        }else{
-                            pushErrors(signUpResponseData.getError().getStatusCode());
-                            Log.d("onResponse: ",signUpResponseData.getError().getStatusCode());
-                        }
-                        circularProgress.setVisibility(View.INVISIBLE);
-                    }
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<SignUpResponse> call, @NonNull Throwable t) {
-                    StackTraceElement[] stktrace
-                            = t.getStackTrace();
-                    for (int i = 0; i < stktrace.length; i++) {
-                        Log.d("response", "Index " + i
-                                + " of stack trace"
-                                + " array contains = "
-                                + stktrace[i].toString());
-                    }
-                    showMessages("Sorry, we are unable to complete the sign up process now. Make sure you are connect with internet and try again later.");
-
-                }
-
-            });
-        }
-    }
-//    END SIGN UP PROCESS
-
-    private void showMessages(String message) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignUpActivity.this);
-        builder.setMessage(message+"\nSend OTP Code to "+contact+ " Number?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(SignUpActivity.this,otpValidate.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("mobile",contact);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-        builder.setNeutralButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        builder.show();
-
     }
 
     private boolean validatePassword() {
@@ -380,7 +324,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 //        CheckBox
         if (!isAcceptedTermsAndConditions){
-            showMessages("You have to accept terms and conditions");
+            showError("You have to accept terms and conditions");
         }
 
 //        Contact
@@ -426,51 +370,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private void pushErrors(String errorCode) {
-        switch (errorCode){
-            case "1000":
-                errors = "Internal server error. Please try again Later";
-                break;
-            case "1001":
-                errors = "Username or Password incorrect";
-                break;
-            case "1002":
-                errors = "Please enter email correct and try again";
-                break;
-            case "1003":
-                errors = "Account not activated";
-                break;
-            case "1004":
-                errors = "Login expired. Please Sign In";
-                break;
-            case "1005":
-                errors = "Token of session is not provided";
-                break;
-            case "1006":
-                errors = "Parameter missing";
-                break;
-            case "1007":
-                errors = "Mobile number required";
-                break;
-            case "1008":
-                errors = "User has been already registered. But activation has not been verified.";
-                break;
-            case "1009":
-                errors = "Registration rejected, Email/Mobile found";
-                break;
-            case "1010":
-                errors = "Parameters not match.";
-                break;
-            case "1205":
-                errors = "OTP verification is required.";
-                break;
-            default:
-                errors = "Something went wrong. Please try again later";
-        }
-        showError(errors);
-
-    }
-
     private void showError(String errors) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignUpActivity.this);
         builder.setMessage(errors);
@@ -478,8 +377,6 @@ public class SignUpActivity extends AppCompatActivity {
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(SignUpActivity.this,otpValidate.class);
-                startActivity(intent);
             }
         });
         builder.setNeutralButton("Go back", new DialogInterface.OnClickListener() {
