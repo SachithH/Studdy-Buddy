@@ -2,6 +2,8 @@ package com.learntv.studybuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -18,6 +20,9 @@ public class McqEarningActivity extends AppCompatActivity {
 
         if (earning>0){
             earningView.setText(String.valueOf(earning));
+        }else{
+            Intent intent = new Intent(McqEarningActivity.this,VODListActivity.class);
+            startActivity(intent);
         }
 
     }
