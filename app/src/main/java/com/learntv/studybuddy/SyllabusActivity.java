@@ -5,17 +5,12 @@ import static com.learntv.studybuddy.support.BottomNavigation.bottomNavigationFu
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.learntv.studybuddy.support.TokenAuthenticate;
 
 public class SyllabusActivity extends AppCompatActivity implements View.OnClickListener {
     Bundle extra_details = new Bundle();
