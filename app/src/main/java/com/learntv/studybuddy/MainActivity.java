@@ -1,33 +1,19 @@
 package com.learntv.studybuddy;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.SignInPost;
 import com.learntv.studybuddy.support.TokenAuthenticate;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
-import javax.crypto.Cipher;
 
 public class MainActivity extends AppCompatActivity {
     private Handler handler;
@@ -37,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private TokenAuthenticate.login tokenAuthenticateLogin;
     private CircularProgressIndicator circularProgressIndicator;
     private SignInPost.showErrors signInPostError;
+    private String android_id;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
             }
         },3000);
 
+        android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.d("onCreate: ",android_id);
+
     }
 
 
@@ -64,12 +56,13 @@ public class MainActivity extends AppCompatActivity {
         PrefManager prefManager = new PrefManager(getApplicationContext());
         token = prefManager.getToken();
         if(token.isEmpty()){
-            token = "notToken";
+            startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+        }else{
+            setAction();
+            TokenAuthenticate tokenAuthenticate = new TokenAuthenticate();
+            tokenAuthenticate.setData(token,getApplicationContext(),signInPostLogin, tokenAuthenticateLogin);
+            tokenAuthenticate.checkToken();
         }
-        setAction();
-        TokenAuthenticate tokenAuthenticate = new TokenAuthenticate();
-        tokenAuthenticate.setData(token,getApplicationContext(),signInPostLogin, tokenAuthenticateLogin);
-        tokenAuthenticate.checkToken();
     }
 
     public void setAction(){

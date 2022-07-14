@@ -52,7 +52,7 @@ public class ShowErrors {
                 errors = "Internal server error. Please try again Later";
                 break;
             case "1001":
-                errors = "Username or Password incorrect";
+                errors = "Mobile Number or Password incorrect";
                 break;
             case "1002":
                 errors = "Please enter email correct and try again";

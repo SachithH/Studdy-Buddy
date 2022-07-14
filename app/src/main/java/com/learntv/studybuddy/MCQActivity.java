@@ -1,12 +1,15 @@
 package com.learntv.studybuddy;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -57,6 +61,7 @@ public class MCQActivity extends AppCompatActivity {
     private McqResponse mcqResponse;
     private CircularProgressIndicator mcqProgressCircular;
     private int earning = 0;
+    private Dialog dialog;
 
 
     @SuppressLint("SetTextI18n")
@@ -64,6 +69,8 @@ public class MCQActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mcq);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -129,6 +136,7 @@ public class MCQActivity extends AppCompatActivity {
             question.setText(questionText);
             setDataInRecyclerView();
         }else{
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             Intent intent = new Intent(MCQActivity.this,McqEarningActivity.class);
             intent.putExtra("earning",earning);
             startActivity(intent);
@@ -283,7 +291,7 @@ public class MCQActivity extends AppCompatActivity {
                         }
                     }
                 }else{
-                    Log.d("onResponse: ","mcq Response null");
+                    pushErrors("0","Sorry! Something went wrong please try again later");
                 }
             }
 
@@ -294,14 +302,16 @@ public class MCQActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void answerView(boolean answerState) {
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(MCQActivity.this);
-        builder.setCancelable(true);
+        dialog = new Dialog(this);
         @SuppressLint("InflateParams")
         View mcqFrag = getLayoutInflater().inflate(R.layout.modal_mcq,null);
         ShapeableImageView correct = mcqFrag.findViewById(R.id.correct);
         ShapeableImageView wrong = mcqFrag.findViewById(R.id.wrong);
         AppCompatTextView stateText = mcqFrag.findViewById(R.id.stateText);
+        ImageButton backButton = mcqFrag.findViewById(R.id.mcq_modal_back_button);
+        MaterialButton goForward = mcqFrag.findViewById(R.id.mcq_modal_go_forward_btn);
 
         if (answerState){
             correct.setVisibility(View.VISIBLE);
@@ -314,16 +324,19 @@ public class MCQActivity extends AppCompatActivity {
             stateText.setText(R.string.wrong);
             stateText.setTextColor(getResources().getColor(R.color.red,getTheme()));
         }
-        builder.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.mcq_modal_bg,getTheme()));
-        builder.setView(mcqFrag);
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                addEarn();
-                nextView();
-            }
+        dialog.getWindow().getAttributes().windowAnimations = R.style.mcqDialogAnimation;
+        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.mcq_modal_bg));
+        dialog.setContentView(mcqFrag);
+        dialog.setCancelable(false);
+        goForward.setOnClickListener(view -> {
+            addEarn();
+            nextView();
+            dialog.dismiss();
         });
-        builder.show();
+        backButton.setOnClickListener(view -> {
+            finish();
+        });
+        dialog.show();
         Log.d("answerView: ","answerView");
     }
 

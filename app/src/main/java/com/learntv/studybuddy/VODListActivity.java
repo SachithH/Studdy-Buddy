@@ -1,6 +1,7 @@
 package com.learntv.studybuddy;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
@@ -61,6 +62,7 @@ public class VODListActivity extends AppCompatActivity implements View.OnClickLi
     private CircularProgressIndicator circularProgressIndicator;
     private AppCompatEditText searchBar;
     private goToVideoClass video;
+    private Dialog dialog;
 
 
     @Override
@@ -103,6 +105,8 @@ public class VODListActivity extends AppCompatActivity implements View.OnClickLi
                 filter(s);
             }
         });
+
+        dialog = new Dialog(this);
 
         checkToken();
         Log.d("onCreate: ",token);
@@ -239,18 +243,17 @@ public class VODListActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void showQuality(View v, int position, List<VODResponseData> vodResponseDataNew){
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
-        builder.setCancelable(true);
         View qualityView = getLayoutInflater().inflate(R.layout.modal_quality,null);
+        dialog.setContentView(qualityView);
         qualityView.findViewById(R.id.low).setOnClickListener(this);
         qualityView.findViewById(R.id.medium).setOnClickListener(this);
         qualityView.findViewById(R.id.high).setOnClickListener(this);
-        builder.setView(qualityView);
-        builder.show();
+        dialog.show();
         video = new goToVideoClass();
         video.setData(position,vodResponseDataNew);
     }
 
+        @SuppressLint("NonConstantResourceId")
         public void onClick(View view) {
             int quality;
             switch (view.getId()){
@@ -265,6 +268,7 @@ public class VODListActivity extends AppCompatActivity implements View.OnClickLi
                     break;
             }
             video.setQuality(quality);
+            dialog.dismiss();
             video.goToVideo();
     }
 

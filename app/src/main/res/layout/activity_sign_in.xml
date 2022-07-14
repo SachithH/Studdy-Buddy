@@ -23,14 +23,14 @@
 
         <!--Username-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField"
+            android:id="@+id/signInMobileNumberTextField"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="wrap_content"
-            android:hint="Email or Mobile"
+            android:hint="Mobile Number"
             style="@style/inputBox">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailIn"
+                android:id="@+id/signInMobileNumber"
                 android:layout_width="@dimen/sign_input_width"
                 android:layout_height="@dimen/sign_input_height"
                 android:inputType="text"
@@ -41,7 +41,7 @@
 
         <!--Password-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textField3"
+            android:id="@+id/signInPasswordTextField"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/signBtnMargin"
@@ -50,7 +50,7 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordIn"
+                android:id="@+id/signInPassword"
                 android:layout_width="@dimen/sign_input_width"
                 android:layout_height="@dimen/sign_input_height"
                 android:inputType="textPassword"
@@ -62,14 +62,14 @@
         <!--Password End-->
 
         <!--Sign In Button-->
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/profileSignIn"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="@dimen/sign_input_height"
             android:layout_marginTop="35dp"
             android:background="@drawable/signup_btns"
             style="@style/yellowBtn"
-            android:text="@string/sign_in" />
+            android:text="@string/sign_in"/>
 
         <CheckBox
             android:id="@+id/rememberMe"

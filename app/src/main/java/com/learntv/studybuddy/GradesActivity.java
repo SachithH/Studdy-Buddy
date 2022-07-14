@@ -1,12 +1,17 @@
 package com.learntv.studybuddy;
 
+import static com.learntv.studybuddy.support.BottomNavigation.bottomNavigationFunction;
+
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,7 +19,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.learntv.studybuddy.adapters.CustomAdapter;
 import com.learntv.studybuddy.support.SignInPost;
@@ -25,27 +33,16 @@ import java.util.ArrayList;
 public class GradesActivity extends AppCompatActivity {
     CircularProgressIndicator circularProgressIndicator;
     RecyclerView recyclerView;
-    RecyclerView recyclerView2;
-    ArrayList<String> firstColumn = new ArrayList<>();
-    ArrayList<String> secondColumn = new ArrayList<>();
     private CustomAdapter.RecyclerViewClickListener listener;
     private String token;
-    final private int[] grades = {
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13
-    };
+    final private String[] grades = {"6", "7", "8", "9", "10", "11", "12", "13"};
     private MaterialToolbar topAppBar;
     private DrawerLayout drawerLayout;
     private SignInPost.showErrors signInPostError;
     private SignInPost.login signInPostLogin;
     private TokenAuthenticate.login tokenAuthenticateLogin;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,22 +55,31 @@ public class GradesActivity extends AppCompatActivity {
 
         //Set Adapter
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerView2 = findViewById(R.id.recyclerView2);
         circularProgressIndicator = findViewById(R.id.progress_circular_grades);
 
         circularProgressIndicator.setVisibility(View.VISIBLE);
         checkToken();
-        //add image item to arraylist
-        setInfo();
 
         setAdapter();
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
 
-        topAppBar = findViewById(R.id.topAppBar);
-        drawerLayout = findViewById(R.id.drawerLayout);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,topAppBar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                bottomNavigationFunction(getApplicationContext(),item.getItemId());
+                switch(item.getItemId()) {
+                    case R.id.homeBottom:
+                    case R.id.setting:
+                    case R.id.walletBottom:
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
 
     }
 
@@ -86,15 +92,11 @@ public class GradesActivity extends AppCompatActivity {
 
     private void setAdapter() {
         setOnClicklistener();
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),1, GridLayoutManager.VERTICAL,false);
-        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(getApplicationContext(),1, GridLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2, GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView2.setLayoutManager(gridLayoutManager2);
         //Create an object of custom Adapter
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), firstColumn, listener, 1);
-        CustomAdapter customAdapter2 = new CustomAdapter(getApplicationContext(), secondColumn, listener,2);
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), grades, listener, 1);
         recyclerView.setAdapter(customAdapter);
-        recyclerView2.setAdapter(customAdapter2);
     }
 
     public void setAction(){
@@ -149,23 +151,12 @@ public class GradesActivity extends AppCompatActivity {
             public void onClick(View v, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("token",token);
-                bundle.putInt("gradeId",grades[position]);
+                bundle.putString("gradeId",grades[position]);
                 Intent intent = new Intent(getApplicationContext(),SyllabusActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         };
-    }
-
-    private void setInfo() {
-        firstColumn.add("6");
-        secondColumn.add("7");
-        firstColumn.add("8");
-        secondColumn.add("9");
-        firstColumn.add("10");
-        secondColumn.add("11");
-        firstColumn.add("12");
-        secondColumn.add("13");
     }
 
     @Override

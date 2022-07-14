@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.StudyBuddy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -14,7 +14,6 @@
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@color/nofill</item>
     </style>
 
@@ -23,23 +22,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.StudyBuddy.AppCompact" parent="Theme.AppCompat">
+        <item name="elevation">4dp</item>
+    </style>
+
 
     <style name="Theme.StudyBuddy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StudyBuddy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="yellowBtn" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/signBtnTxt</item>
-        <item name="backgroundTint">@color/accent</item>
-        <item name="android:textSize">30sp</item>
-        <item name="cornerRadius">100dp</item>
-    </style>
 
-    <style name="whiteBtn" parent="Widget.AppCompat.Button">
-        <item name="android:textColor">@color/signBtnTxt</item>
-        <item name="backgroundTint">@color/white</item>
-        <item name="android:textSize">18sp</item>
-        <item name="cornerRadius">100dp</item>
-        <item name="fontFamily">@font/gilroy_bold</item>
-    </style>
 </resources>

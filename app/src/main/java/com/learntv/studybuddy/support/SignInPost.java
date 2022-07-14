@@ -7,7 +7,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.learntv.studybuddy.SignInActivity;
 import com.learntv.studybuddy.retrofit.Api;
 import com.learntv.studybuddy.retrofit.SignIn;
 
@@ -28,7 +27,7 @@ public class SignInPost {
 
     //    Sign In Process
     public void signInWithServer(
-            String email,
+            String mobile,
             String password,
             login signInPostLogin,
             showErrors signInPostError,
@@ -44,7 +43,7 @@ public class SignInPost {
         if (circularProgress!=null) circularProgress.setVisibility(View.VISIBLE);
         Log.d("signInWithServer: ",password);
         (Api.getClient().login(
-                email,
+                mobile,
                 password,
                 apiKey,
                 apiSecret
@@ -56,11 +55,11 @@ public class SignInPost {
                     if (circularProgress!=null) circularProgress.setVisibility(View.INVISIBLE);
                     if(signUpResponse.getStatus().equals("success")){
                         if (rememberMe){
-                            saveLoginDetails(email,password);
+                            saveLoginDetails(mobile,password);
                         }
                         loginToGrades(
                                 signUpResponse.getData().getToken(),
-                                email);
+                                mobile);
                     }else{
                         if (signUpResponse.getError()!=null){
                             pushErrors(signUpResponse.getError().getStatusCode(),signUpResponse.getError().getDescription());
@@ -74,6 +73,7 @@ public class SignInPost {
 
             @Override
             public void onFailure(@NonNull Call<SignIn> call, @NonNull Throwable t) {
+                if (circularProgress!=null) circularProgress.setVisibility(View.INVISIBLE);
                 StackTraceElement[] stktrace
                         = t.getStackTrace();
                 for (int i=0; i<stktrace.length; i++){

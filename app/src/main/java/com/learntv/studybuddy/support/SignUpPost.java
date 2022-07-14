@@ -20,12 +20,11 @@ public class SignUpPost {
 
 
     //    SIGN UP PROCESS
-    public void signUpEmailAndMobile(
-
-            String signUpUsername,
-            String signUpEmail,
-            String hashPassword,
+    public void signUpMobile(
             String contact,
+            String password,
+            String deviceId,
+            String promoCode,
             showErrors signUpPostError,
             showSuccess signUpPostSuccess
 
@@ -33,11 +32,11 @@ public class SignUpPost {
         this.signUpPostError = signUpPostError;
         this.signUpPostSuccess = signUpPostSuccess;
 
-        (Api.getClient().registerEmailAndMobile(
-                signUpEmail,
-                hashPassword,
-                signUpUsername,
+        (Api.getClient().registerMobile(
                 contact,
+                password,
+                deviceId,
+                promoCode,
                 apiKey,
                 apiSecret
         )).enqueue(new Callback<SignUpResponse>() {

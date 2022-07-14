@@ -12,13 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.learntv.studybuddy.retrofit.SignIn;
 import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.SignInPost;
@@ -29,8 +29,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class SignInActivity extends AppCompatActivity {
-    private EditText email;
-    private EditText password;
+    private TextInputEditText mobileInput,passwordInput;
     private CheckBox rememberMe;
     private SignIn signUpResponseData;
     private String hashPW;
@@ -42,6 +41,7 @@ public class SignInActivity extends AppCompatActivity {
     private final String apiSecret = "lu55mgL5sIuDNcxCfXOkydElrfr6ehxyhrNsB8aBqe0ASPIX9XB6c5k8+4NfV15SMv0aipGd0gtzwbrDEqVf3T4A";
     private SignInPost.login signInPostLogin;
     private SignInPost.showErrors signInPostError;
+    private TextInputLayout mobileTextField,passwordTextField;
 
 
     @Override
@@ -58,13 +58,13 @@ public class SignInActivity extends AppCompatActivity {
             circularProgress.setVisibility(View.VISIBLE);
             setAction();
             //user's email and password both are saved in preferences
-            String savedEmail = prefManager.getEmail();
+            String savedMobile = prefManager.getMobile();
             String savedPassword = prefManager.getPassword();
 
 
 
-            if (validateEmail(savedEmail) && validatePwd(savedPassword)) {
-                    signIn(savedEmail,savedPassword);
+            if (isValidPhoneNumber(savedMobile) && validatePwd(savedPassword)) {
+                    signIn(savedMobile,savedPassword);
             }
 
 
@@ -74,9 +74,29 @@ public class SignInActivity extends AppCompatActivity {
         //end remember me
 
 //        username and password
-        email = findViewById(R.id.emailIn);
-        password = findViewById(R.id.passwordIn);
+        mobileInput = findViewById(R.id.signInMobileNumber);
+        passwordInput = findViewById(R.id.signInPassword);
         rememberMe = findViewById(R.id.rememberMe);
+        mobileTextField = findViewById(R.id.signInMobileNumberTextField);
+        passwordTextField = findViewById(R.id.signInPasswordTextField);
+
+
+        mobileInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                String mobile = mobileInput.getText().toString().trim();
+                isValidPhoneNumber(mobile);
+            }
+        });
+
+//        Password
+        passwordInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                String password = passwordInput.getText().toString().trim();
+                validatePwd(password);
+            }
+        });
 
         //Sign In Button
         Button signIn = findViewById(R.id.profileSignIn);
@@ -85,18 +105,18 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setAction();
-                String emailStr = email.getText().toString().trim();
-                String passwordStr = password.getText().toString().trim();
+                String mobile = mobileInput.getText().toString().trim();
+                String password = passwordInput.getText().toString().trim();
                 //Create hash password
 
 
 
                 // validate the fields and call sign method to implement the api
-                if (validateEmail(emailStr) && validatePwd(passwordStr)) {
+                if (isValidPhoneNumber(mobile) && validatePwd(password)) {
                     circularProgress.setVisibility(View.VISIBLE);
 
                     BackgroundSignIn backgroundSignIn = new BackgroundSignIn();
-                    backgroundSignIn.executeAsync(emailStr,passwordStr);
+                    backgroundSignIn.executeAsync(mobile,password);
 
                 }
 
@@ -114,53 +134,52 @@ public class SignInActivity extends AppCompatActivity {
         private final Executor executor = Executors.newSingleThreadExecutor();
         private final Handler handler = new Handler(Looper.getMainLooper());
 
-        public void executeAsync (String emailStr, String passwordStr){
+        public void executeAsync (String mobile, String password){
             executor.execute(()->{
                 try {
-                    hashPW = createHashPW(emailStr,passwordStr);
+                    hashPW = createHashPW(mobile,password);
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                     e.printStackTrace();
                 }
                 handler.post(()->{
-                        signIn(emailStr,hashPW);
+                        signIn(mobile,hashPW);
                 });
             });
 
         }
     }
 
-    private void signIn(String emailStr, String hashPW) {
+    private void signIn(String mobile, String hashPW) {
         boolean remember = false;
         if (rememberMe!=null){
             remember = rememberMe.isChecked();
         }
-        new SignInPost().signInWithServer(emailStr,hashPW, signInPostLogin, signInPostError,getApplicationContext(),remember,circularProgress);
+        new SignInPost().signInWithServer(mobile,hashPW, signInPostLogin, signInPostError,getApplicationContext(),remember,circularProgress);
     }
 
     //    validate email
-    private boolean validateEmail(String emailString) {
+    private boolean isValidPhoneNumber(String mobileNumber) {
+        boolean digitsOnly = TextUtils.isDigitsOnly(mobileNumber);
 
-        if (emailString.isEmpty() || !isValidEmail(emailString)){
-            email.setError("Email is not valid");
-            email.requestFocus();
-            return false;
-        }else {
+        if (digitsOnly&&mobileNumber.length() == 10) {
+            mobileTextField.setErrorEnabled(false);
             return true;
+        } else {
+            mobileTextField.setErrorEnabled(true);
+            mobileTextField.setError("Please Enter Valid Number");
+            return false;
         }
-    }
 
-    private boolean isValidEmail(String emailString) {
-        return !TextUtils.isEmpty(emailString) && android.util.Patterns.EMAIL_ADDRESS.matcher(emailString).matches();
     }
-//   end email validate
 
 //    password validate
     private boolean validatePwd(String passwordStr) {
         if (0 < passwordStr.length()) {
+            passwordTextField.setErrorEnabled(false);
             return true;
         }else {
-            password.setError("Please Fill This");
-            password.requestFocus();
+            passwordTextField.setErrorEnabled(true);
+            passwordTextField.setError("Please Fill This");
             return false;
         }
 //        end password validate

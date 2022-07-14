@@ -4,46 +4,34 @@ import static com.learntv.studybuddy.PasswordHashing.createHash;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
-import com.learntv.studybuddy.retrofit.Api;
 import com.learntv.studybuddy.retrofit.SignUpResponse;
-import com.learntv.studybuddy.support.hideSystemBars;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class SignUpActivity extends AppCompatActivity {
-    private EditText USignUpUsername,USignUpEmail,USignUpPassword,USignUpRetypePassword,USignUpContact;
-    private TextInputLayout FieldUSignUpUsername,FieldUSignUpEmail,FieldUSignUpPassword,FieldUSignUpRetypePassword,FieldUSignUpContact;
-    private String userName,email,password,retypePassword,contact;
+    private EditText USignUpPassword,USignUpRetypePassword,USignUpContact;
+    private TextInputLayout FieldUSignUpPassword,FieldUSignUpRetypePassword,FieldUSignUpContact;
+    private String password,retypePassword,contact;
     private String hashPW;
-    private SignUpResponse signUpResponseData;
     private CircularProgressIndicator circularProgress;
     private CheckBox termsCheckBox;
     private final String apiKey = "a3373f7506773a10929a35195c0b27f0530dea0d1c0a442b";
@@ -60,49 +48,29 @@ public class SignUpActivity extends AppCompatActivity {
         TextView termsAndConditionText = findViewById(R.id.TermsAndConditionsText);
         termsCheckBox = findViewById(R.id.TermsAndConditions);
 
-
-        USignUpUsername = findViewById(R.id.SignUpUsername);
-        USignUpEmail = findViewById(R.id.SignUpEmailOrPhone);
         USignUpPassword = findViewById(R.id.SignUpPassword);
         USignUpRetypePassword = findViewById(R.id.SignUpRetypePassword);
         USignUpContact = findViewById(R.id.SignUpContact);
 
-//        UserName
-        USignUpUsername.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                userName = USignUpUsername.getText().toString().trim();
-                if (hasFocus){
-                    FieldUSignUpUsername.setHelperTextEnabled(true);
-                    FieldUSignUpUsername.setHelperText("Type your username");
-                }else{
-                    if (userName.length()>0){
-                        FieldUSignUpUsername.setHelperTextEnabled(false);
-                        FieldUSignUpUsername.setErrorEnabled(false);
-                    }else {
-                        FieldUSignUpUsername.setHelperTextEnabled(true);
-                        FieldUSignUpUsername.setError("Username required");
-                    }
-                }
-            }
-        });
 
-//        Email
-        USignUpEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        //        Contact
+        USignUpContact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                email = USignUpEmail.getText().toString().trim();
+                contact = USignUpContact.getText().toString().trim();
                 if (hasFocus){
-                    FieldUSignUpEmail.setHelperTextEnabled(true);
-                    FieldUSignUpEmail.setHelperText("Eg: abc@abc.com");
+                    FieldUSignUpContact.setHelperTextEnabled(true);
+                    FieldUSignUpContact.setHelperText("Eg: 0712345678");
                 }else{
-                    if (isValidEmail(email)){
-                        FieldUSignUpEmail.setHelperTextEnabled(false);
-                        FieldUSignUpEmail.setErrorEnabled(false);
-                    }else {
-                        FieldUSignUpEmail.setHelperTextEnabled(true);
-                        FieldUSignUpEmail.setError("Please enter valid email");
+                    if (contact.length() == 10) {
+                        FieldUSignUpContact.setHelperTextEnabled(false);
+                        FieldUSignUpContact.setErrorEnabled(false);
+
+                    } else {
+                        FieldUSignUpContact.setHelperTextEnabled(true);
+                        FieldUSignUpContact.setError("Please enter valid mobile number");
                     }
+
                 }
             }
         });
@@ -162,30 +130,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-//        Contact
-        USignUpContact.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                contact = USignUpContact.getText().toString().trim();
-                if (hasFocus){
-                    FieldUSignUpContact.setHelperTextEnabled(true);
-                    FieldUSignUpContact.setHelperText("Eg: 0712345678");
-                }else{
-                    if (contact.length() == 10) {
-                        FieldUSignUpContact.setHelperTextEnabled(false);
-                        FieldUSignUpContact.setErrorEnabled(false);
-
-                    } else {
-                        FieldUSignUpContact.setHelperTextEnabled(true);
-                        FieldUSignUpContact.setError("Please enter valid mobile number");
-                    }
-
-                }
-            }
-        });
-
-        FieldUSignUpUsername = findViewById(R.id.UsernameTextField);
-        FieldUSignUpEmail = findViewById(R.id.EmailOrPhoneTextField);
         FieldUSignUpPassword = findViewById(R.id.PasswordTextField);
         FieldUSignUpRetypePassword = findViewById(R.id.RetypePasswordTextField);
         FieldUSignUpContact = findViewById(R.id.contactTextField);
@@ -198,15 +142,15 @@ public class SignUpActivity extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userName = USignUpUsername.getText().toString().trim();
-                email = USignUpEmail.getText().toString().trim();
-                password = USignUpPassword.getText().toString().trim();
                 contact = USignUpContact.getText().toString().trim();
+                password = USignUpPassword.getText().toString().trim();
 
                 BackgroundSignUp backgroundSignUp = new BackgroundSignUp();
                 if (validate()){
-                    backgroundSignUp.executeAsync(userName,email,password,contact);
-                    circularProgress.setVisibility(View.VISIBLE);
+                    if (isAcceptedTermsAndConditions()) {
+                        backgroundSignUp.executeAsync(password, contact);
+                        circularProgress.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -238,34 +182,32 @@ public class SignUpActivity extends AppCompatActivity {
         private final Executor executor = Executors.newSingleThreadExecutor();
         private final Handler handler = new Handler(Looper.getMainLooper());
 
-        public void executeAsync (String username, String emailStr, String passwordStr, String contactStr){
+        public void executeAsync (String passwordStr, String contactStr){
             executor.execute(()->{
                 try {
-                    hashPW = createHashPW(emailStr,passwordStr);
+                    hashPW = createHashPW(contactStr,passwordStr);
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                     e.printStackTrace();
                 }
                 handler.post(()->{
                     circularProgress.setVisibility(View.INVISIBLE);
-                        otpVerification(username, emailStr, hashPW, contactStr);
+                        otpVerification(hashPW, contactStr);
                 });
             });
         }
     }
 
-    private void otpVerification(String username, String email, String password, String contact) {
+    private void otpVerification(String password, String contact) {
         Intent intent = new Intent(getApplicationContext(),otpValidate.class);
         Bundle bundle = new Bundle();
-        bundle.putString("username",username);
-        bundle.putString("email",email);
         bundle.putString("password",password);
         bundle.putString("contact",contact);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    public String createHashPW(String email,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        return createHash(email, password);
+    public String createHashPW(String contact,String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        return createHash(contact, password);
     }
 
     private boolean validatePassword() {
@@ -295,12 +237,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    //    validate email
-
-    private boolean isValidEmail(String emailString) {
-        return !TextUtils.isEmpty(emailString) && android.util.Patterns.EMAIL_ADDRESS.matcher(emailString).matches();
-    }
-
     private boolean isValidPhoneNumber(String mobileNumber){
         boolean digitsOnly = TextUtils.isDigitsOnly(mobileNumber);
 
@@ -314,18 +250,9 @@ public class SignUpActivity extends AppCompatActivity {
 //   end email validate
 
     private boolean validate() {
-        String EmailOrNumberStr = USignUpEmail.getText().toString().trim();
-        boolean isEmail = isValidEmail(EmailOrNumberStr);
-        boolean isNotUsernameEmpty = 0<USignUpUsername.getText().toString().trim().length();
         boolean isNotPasswordEmpty = validatePassword();
         boolean isNotPasswordMatch = matchPW();
         boolean isValidContact = isValidPhoneNumber(contact);
-        boolean isAcceptedTermsAndConditions = isAcceptedTermsAndConditions();
-
-//        CheckBox
-        if (!isAcceptedTermsAndConditions){
-            showError("You have to accept terms and conditions");
-        }
 
 //        Contact
         if (!isValidContact){
@@ -337,36 +264,15 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 //        Password
+        FieldUSignUpPassword.setHelperTextEnabled(false);
         if (!isNotPasswordEmpty){
             FieldUSignUpPassword.setErrorEnabled(true);
             FieldUSignUpPassword.setError("Password is required");
             USignUpPassword.requestFocus();
-        }else {
-            FieldUSignUpPassword.setHelperTextEnabled(false);
-        }
-
-//        Email
-        if (!(isEmail)){
-            FieldUSignUpEmail.setErrorEnabled(true);
-            FieldUSignUpEmail.setError("Please Type Valid Email or Mobile Number");
-            USignUpEmail.requestFocus();
-        }else {
-            FieldUSignUpEmail.setErrorEnabled(false);
-        }
-
-//        UserName
-        if (!isNotUsernameEmpty) {
-            FieldUSignUpUsername.setErrorEnabled(true);
-            FieldUSignUpUsername.setError("Username is required");
-            USignUpUsername.requestFocus();
-        }else {
-            FieldUSignUpUsername.setErrorEnabled(false);
         }
 
 
-
-
-        return isNotUsernameEmpty && isEmail && isNotPasswordEmpty && isNotPasswordMatch && isValidContact && isAcceptedTermsAndConditions;
+        return isNotPasswordEmpty && isNotPasswordMatch && isValidContact;
 
     }
 
@@ -382,13 +288,18 @@ public class SignUpActivity extends AppCompatActivity {
         builder.setNeutralButton("Go back", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                finish();
             }
         });
         builder.show();
     }
 
     private boolean isAcceptedTermsAndConditions() {
+        //        CheckBox
+        if (termsCheckBox.isChecked()) {
+            return termsCheckBox.isChecked();
+        }
+        showError("You have to accept terms and conditions");
         return termsCheckBox.isChecked();
     }
 

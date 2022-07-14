@@ -19,10 +19,9 @@ public class McqEarningActivity extends AppCompatActivity {
         int earning = getIntent().getIntExtra("earning",0);
 
         if (earning>0){
-            earningView.setText(String.valueOf(earning));
+            earningView.setText("You won\n"+String.valueOf(earning)+" Coins");
         }else{
-            Intent intent = new Intent(McqEarningActivity.this,VODListActivity.class);
-            startActivity(intent);
+            finish();
         }
 
     }

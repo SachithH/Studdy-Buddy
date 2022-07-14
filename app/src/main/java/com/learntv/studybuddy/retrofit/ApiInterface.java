@@ -10,45 +10,25 @@ public interface ApiInterface {
 //    For post request
     @FormUrlEncoded
     @POST("/studybuddy/v1/register/")
-    Call<SignUpResponse> registerEmail(
-            @Field("email") String email,
-            @Field("password") String password,
-            @Field("username") String username,
-            @Field("api_key") String apiKey,
-            @Field("api_secret") String apiSecret
-    );
-
-    @FormUrlEncoded
-    @POST("/studybuddy/v1/register/")
     Call<SignUpResponse> registerMobile(
+            @Field("mobileNo") String contact,
             @Field("password") String password,
-            @Field("username") String username,
-            @Field("contact") String contact,
+            @Field("referral_code") String referral_code,
+            @Field("device_id") String device_id,
             @Field("api_key") String apiKey,
             @Field("api_secret") String apiSecret
     );
 
     @FormUrlEncoded
-    @POST("/studybuddy/v1/register/")
-    Call<SignUpResponse> registerEmailAndMobile(
-            @Field("email") String email,
-            @Field("password") String password,
-            @Field("username") String username,
-            @Field("contact") String contact,
-            @Field("api_key") String apiKey,
-            @Field("api_secret") String apiSecret
-    );
-
-    @FormUrlEncoded
-    @POST("/studybuddy/v1/mobile/otp/send/")
+    @POST("/studybuddy/v1/mobile/getOtp")
     Call<CommonResponse> otpRequest(
             @Field("api_key") String apiKey,
             @Field("api_secret") String apiSecret,
-            @Field("mobile") String mobile
+            @Field("mobileNo") String mobile
     );
 
     @FormUrlEncoded
-    @POST("/studybuddy/v1/mobile/otp/verify/")
+    @POST("/studybuddy/v1/mobile/setOtp")
     Call<CommonResponse> otpVerify(
             @Field("api_key") String apiKey,
             @Field("api_secret") String apiSecret,
@@ -56,18 +36,10 @@ public interface ApiInterface {
             @Field("otp") String otp
     );
 
-
     @FormUrlEncoded
-    @POST("/studybuddy/v1/googleoauth/tokensignin")
-    Call<SignIn> googleApi(
-        @Field("client_id") String clientId,
-        @Field("id_token") String googleToken
-    );
-
-    @FormUrlEncoded
-    @POST("/studybuddy/v1/authenticate/email/")
+    @POST("/studybuddy/v1/authenticate/mobile")
     Call<SignIn> login(
-            @Field("email") String email,
+            @Field("mobileNo") String mobileNo,
             @Field("password") String password,
             @Field("api_key") String api_key,
             @Field("api_secret") String api_secret

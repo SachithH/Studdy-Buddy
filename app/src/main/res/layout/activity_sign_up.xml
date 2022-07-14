@@ -18,46 +18,27 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!--Username-->
+        <!--Mobile Number-->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/UsernameTextField"
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            style="@style/inputBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/SignUpUsername"
-                android:layout_width="@dimen/sign_input_width"
-                android:layout_height="@dimen/sign_input_height"
-                android:autofillHints="Eg: Malith"
-                android:inputType="text"
-                android:singleLine="true"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Username End-->
-
-        <!--Email-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/EmailOrPhoneTextField"
+            android:id="@+id/contactTextField"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/signBtnMargin"
-            android:hint="Email"
+            android:hint="Mobile Number"
             style="@style/inputBox">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/SignUpEmailOrPhone"
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/SignUpContact"
                 android:layout_width="@dimen/sign_input_width"
                 android:layout_height="@dimen/sign_input_height"
-                android:inputType="textEmailAddress"
+                android:inputType="number"
                 android:singleLine="true"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray" />
 
         </com.google.android.material.textfield.TextInputLayout>
-        <!--Email End-->
+        <!--Mobile Number End-->
 
         <!--Password-->
         <com.google.android.material.textfield.TextInputLayout
@@ -91,33 +72,11 @@
             style="@style/inputBox"
             app:passwordToggleEnabled="true">
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/SignUpRetypePassword"
                 android:layout_width="@dimen/sign_input_width"
                 android:layout_height="@dimen/sign_input_height"
                 android:inputType="textPassword"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-        <!--Retype Password End-->
-
-        <!--Retype Password-->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contactTextField"
-            android:layout_width="@dimen/sign_input_width"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/signBtnMargin"
-            android:hint="Mobile Number"
-            style="@style/inputBox">
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/SignUpContact"
-                android:layout_width="@dimen/sign_input_width"
-                android:layout_height="@dimen/sign_input_height"
-                android:inputType="number"
                 android:singleLine="true"
                 android:textAlignment="center"
                 android:textColor="@color/white"
@@ -147,6 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/TermsConditions"
+                style="@style/textColor"
                 android:layout_weight="4"
                 />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -165,6 +125,28 @@
 
         <!--Sign Up Button End-->
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        style="@style/Theme.AppCompat.DayNight.NoActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nofill"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="0dp"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular"

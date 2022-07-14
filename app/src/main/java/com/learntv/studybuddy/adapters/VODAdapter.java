@@ -5,34 +5,23 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.learntv.studybuddy.R;
 import com.learntv.studybuddy.retrofit.VODResponseData;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>{
     Context context;
     List<VODResponseData> vodResponseData;
     RecyclerViewClickListener listener;
-    private final String[] url = {
-            "http://edutv.lk/img/grade-06.jpg",
-            "http://edutv.lk/img/grade-07.jpg",
-            "http://edutv.lk/img/grade-08.jpg",
-            "http://edutv.lk/img/grade-09.jpg",
-            "http://edutv.lk/img/grade-10.jpg",
-            "http://edutv.lk/img/grade-11.jpg",
-            "http://edutv.lk/img/grade-12.jpg"
-    };
 
     public VODAdapter(Context context, List<VODResponseData> vodResponseData, RecyclerViewClickListener listener) {
         this.vodResponseData = vodResponseData;
@@ -66,10 +55,9 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
         holder.getHeading().setText(headingText);
         holder.getShortDesc().setText(shortDescText);
 
-        int pos = position%7;
 
-        String uri = url[pos];
-        Picasso.get().load(uri).into(holder.getVodThumb());
+        String uri = vodResponseData.get(position).getThumb();
+        Picasso.get().load(uri).placeholder(R.drawable.gradient_background).into(holder.getVodThumb());
     }
 
     @Override
@@ -78,10 +66,10 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
     }
 
     public class UsersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private final AppCompatImageButton favouriteBtn;
+        private final ImageButton favouriteBtn;
         private final TextView heading;
         private final TextView shortDesc;
-        private final AppCompatImageView vodThumb;
+        private final ImageView vodThumb;
         
         public UsersViewHolder(View view) {
             super(view);
@@ -104,11 +92,11 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
             return shortDesc;
         }
 
-        public AppCompatImageView getVodThumb(){
+        public ImageView getVodThumb(){
             return vodThumb;
         }
 
-        public AppCompatImageButton getFavouriteBtn(){
+        public ImageButton getFavouriteBtn(){
             return favouriteBtn;
         }
 

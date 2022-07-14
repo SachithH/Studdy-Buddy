@@ -5,9 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.learntv.studybuddy.retrofit.Api;
 import com.learntv.studybuddy.retrofit.CommonResponse;
 import com.learntv.studybuddy.support.ShowErrors;
-import com.learntv.studybuddy.support.SignUpPost;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,46 +31,45 @@ public class otpValidate extends AppCompatActivity {
     public int counter;
     private final String apiKey = "40b5e4a44415a80818d65d4d1417df7e9b822e4db286ed5c";
     private final String apiSecret = "63Srhl71FxVJuj90oJIHbXn7Ryf/sLiFivLw94SYQiC4qDR38dq4TcHTAW0GmJX5i32lLWdC/5+vgroqfda0936V";
-    private String mobileNumber = "",username,email,password;
+    private String mobileNumber = "",password;
     private CommonResponse otpResponse,otpVerifyResponse;
-    private SignUpPost.showErrors signUpPostError;
-    private SignUpPost.showSuccess signUpPostSuccess;
     private CountDownTimer timerCD;
+    private String deviceId;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "HardwareIds"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp_validate);
         numberText = findViewById(R.id.numberText);
 
-        Button verifyBtn = findViewById(R.id.verifyBtn);
+        MaterialButton verifyBtn = findViewById(R.id.verifyBtn);
+
+        deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null){
-            username = bundle.getString("username");
-            email = bundle.getString("email");
             password = bundle.getString("password");
             mobileNumber = bundle.getString("contact");
-            numberText.setText("OTP has been sent to "+mobileNumber+" number");
-
-            verifyBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String otpString = otpInput.getText().toString().trim();
-                    verifyOtp(otpString);
-                }
-            });
+            numberText.setText("OTP has been sent to "+mobileNumber+" number\nEnter OTP within 60 seconds");
+        }else {
+            Toast.makeText(this,"Something went wrong please try again later",Toast.LENGTH_SHORT).show();
+            finish();
         }
         countDownTimer = (TextView) findViewById(R.id.counterVal);
         resend = (TextView) findViewById(R.id.resend);
         startRequest();
 
+        verifyBtn.setOnClickListener((view)->{
+                String otpString = otpInput.getText().toString().trim();
+                verifyOtp(otpString);
+        });
+
         otpInput = findViewById(R.id.mobileNumber);
     }
 
     private void startRequest(){
-        resend.setVisibility(View.INVISIBLE);
         counter = 60;
         if (timerCD!=null){
             timerCD.cancel();
@@ -84,13 +83,12 @@ public class otpValidate extends AppCompatActivity {
         CountDownTimer CDTimer = new CountDownTimer(60000, 1000){
             @SuppressLint("SetTextI18n")
             public void onTick(long millisUntilFinished){
-                countDownTimer.setText("Enter OTP within "+String.valueOf(counter)+" seconds");
+                countDownTimer.setText("Time : "+ counter +" s");
                 counter--;
             }
             @SuppressLint("SetTextI18n")
             public  void onFinish(){
-                countDownTimer.setText("Please check your number and click resend");
-                resend.setVisibility(View.VISIBLE);
+                countDownTimer.setText("Time : 0 s");
                 resend.setClickable(true);
                 resend.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -138,7 +136,7 @@ public class otpValidate extends AppCompatActivity {
     }
 
     private void verifyOtp(String otpString) {
-        setAlertDialog();
+        Log.d("verifyOtp: ","Verify");
         (Api.getClient().otpVerify(
                 apiKey,
                 apiSecret,
@@ -152,11 +150,13 @@ public class otpValidate extends AppCompatActivity {
                     if (otpVerifyResponse.getData()!=null){
                         Toast.makeText(getApplicationContext(),otpVerifyResponse.getData().getDescription(),Toast.LENGTH_LONG).show();
                         Log.d("onResponse: ","otpResponse");
-                        new SignUpPost().signUpEmailAndMobile(username,email,password,mobileNumber,signUpPostError,signUpPostSuccess);
+//                        new SignUpPost().signUpMobile(mobileNumber,password,device_id,signUpPostError,signUpPostSuccess);
+                        goToPromoCodeActivity();
                     }else {
                         if (otpVerifyResponse.getError()!=null){
                             pushErrors(otpVerifyResponse.getError().getStatusCode(),otpVerifyResponse.getError().getDescription());
                             Log.d("onResponse: ","otpResponseGetError");
+                            Log.d("verifyOtp: ",mobileNumber);
                         }
                     }
                 }else {
@@ -172,6 +172,16 @@ public class otpValidate extends AppCompatActivity {
         });
     }
 
+    private void goToPromoCodeActivity() {
+        Intent intent = new Intent(otpValidate.this,promoCodeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("mobileNo",mobileNumber);
+        bundle.putString("password",password);
+        bundle.putString("deviceId",deviceId);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
     private void pushErrors(String errorcode, String Description) {
         ShowErrors showErrors = new ShowErrors();
         String errors = showErrors.Errors(errorcode,Description);
@@ -185,49 +195,9 @@ public class otpValidate extends AppCompatActivity {
                 finish();
             }
         });
+        builder.show();
     }
 
-
-
-    public void setAlertDialog() {
-        signUpPostError = new SignUpPost.showErrors() {
-
-            @Override
-            public void pushError(String error) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(otpValidate.this);
-                builder.setMessage(error);
-                builder.setCancelable(false);
-                builder.setPositiveButton("Go back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-                builder.show();
-            }
-        };
-
-
-        signUpPostSuccess = new SignUpPost.showSuccess() {
-
-            @Override
-            public void pushSuccess(String error) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(otpValidate.this);
-                builder.setMessage(error);
-                builder.setCancelable(false);
-                builder.setPositiveButton("Go Home", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getApplicationContext(),"Your account has been activated.\nSign In and Enjoy!",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
-                builder.show();
-            }
-        };
-    }
 
     @Override
     public void onBackPressed() {

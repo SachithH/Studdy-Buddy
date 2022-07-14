@@ -10,18 +10,18 @@ import javax.crypto.spec.PBEKeySpec;
 public class PasswordHashing {
     public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA512";
 
-    public static String createHash(String email,String password)
+    public static String createHash(String contact,String password)
             throws NoSuchAlgorithmException, InvalidKeySpecException
     {
-            return createHash(email,password.toCharArray());
+            return createHash(contact,password.toCharArray());
 
     }
 
 
-    private static String createHash(String email,char[] password)
+    private static String createHash(String contact,char[] password)
             throws NoSuchAlgorithmException, InvalidKeySpecException
     {
-        byte[] salt = email.getBytes();
+        byte[] salt = contact.getBytes();
 
         return pbkdf2(password,salt);
     }

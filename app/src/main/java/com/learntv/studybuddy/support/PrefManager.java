@@ -10,10 +10,10 @@ public class PrefManager {
         this.context = context;
     }
 
-    public void saveLoginDetails(String email,String password){
+    public void saveLoginDetails(String mobile,String password){
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Email",email);
+        editor.putString("Mobile",mobile);
         editor.putString("Password",password);
         editor.apply();
     }
@@ -25,9 +25,9 @@ public class PrefManager {
         editor.apply();
     }
 
-    public String getEmail() {
+    public String getMobile() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("Email","");
+        return sharedPreferences.getString("Mobile","");
     }
 
     public String getPassword(){
@@ -42,7 +42,7 @@ public class PrefManager {
 
     public boolean isUserLoggedOut() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
-        boolean isEmailEmpty = sharedPreferences.getString("Email", "").isEmpty();
+        boolean isEmailEmpty = sharedPreferences.getString("Mobile", "").isEmpty();
         boolean isPasswordEmpty = sharedPreferences.getString("Password", "").isEmpty();
         return isEmailEmpty || isPasswordEmpty;
     }

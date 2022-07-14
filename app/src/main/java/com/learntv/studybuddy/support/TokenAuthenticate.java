@@ -1,10 +1,11 @@
 package com.learntv.studybuddy.support;
 
-import static com.learntv.studybuddy.support.validate.Validating.validateEmail;
+import static com.learntv.studybuddy.support.validate.Validating.isValidPhoneNumber;
 import static com.learntv.studybuddy.support.validate.Validating.validatePwd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -72,7 +73,8 @@ public class TokenAuthenticate {
 
             @Override
             public void onFailure(@NonNull Call<CommonResponse> call,@NonNull  Throwable t) {
-
+                Toast.makeText(context,"Something went wrong please try again later",Toast.LENGTH_LONG).show();
+                redirectToHome();
             }
         });
     }
@@ -84,21 +86,25 @@ public class TokenAuthenticate {
 
 
             //user's email and password both are saved in preferences
-            String savedEmail = prefManager.getEmail();
+            String savedMobile = prefManager.getMobile();
             String savedPassword = prefManager.getPassword();
 
 
 
-            if (validateEmail(savedEmail) && validatePwd(savedPassword)) {
-                new SignInPost().signInWithServer(savedEmail,savedPassword,signInPostLogin,signInPostError,context,false,circularProgress);
+            if (isValidPhoneNumber(savedMobile) && validatePwd(savedPassword)) {
+                new SignInPost().signInWithServer(savedMobile,savedPassword,signInPostLogin,signInPostError,context,false,circularProgress);
             }
 
 
         }else{
-            Intent intent = new Intent(context, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            context.startActivity(intent);
+            redirectToHome();
         }
+    }
+
+    public void redirectToHome(){
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 
     public void loginToActivity(String token) {
