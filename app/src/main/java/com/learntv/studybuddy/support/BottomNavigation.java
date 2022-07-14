@@ -7,8 +7,6 @@ import android.content.Intent;
 import com.learntv.studybuddy.HomeActivity;
 import com.learntv.studybuddy.R;
 import com.learntv.studybuddy.SettingsActivity;
-import com.learntv.studybuddy.SyllabusActivity;
-import com.learntv.studybuddy.VODListActivity;
 import com.learntv.studybuddy.WalletActivity;
 
 public class BottomNavigation {

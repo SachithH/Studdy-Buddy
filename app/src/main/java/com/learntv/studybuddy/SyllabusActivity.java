@@ -1,14 +1,20 @@
 package com.learntv.studybuddy;
 
+import static com.learntv.studybuddy.support.BottomNavigation.bottomNavigationFunction;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.learntv.studybuddy.support.TokenAuthenticate;
 
 public class SyllabusActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,6 +41,7 @@ public class SyllabusActivity extends AppCompatActivity implements View.OnClickL
 
 
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +63,22 @@ public class SyllabusActivity extends AppCompatActivity implements View.OnClickL
         Syllabus_2011.setOnClickListener(this);
         Syllabus_2016.setOnClickListener(this);
         Syllabus_2023.setOnClickListener(this);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            bottomNavigationFunction(getApplicationContext(),item.getItemId());
+            switch(item.getItemId()) {
+                case R.id.homeBottom:
+                case R.id.setting:
+                case R.id.walletBottom:
+                    return true;
+                default:
+                    return false;
+            }
+
+        });
 
 
     }

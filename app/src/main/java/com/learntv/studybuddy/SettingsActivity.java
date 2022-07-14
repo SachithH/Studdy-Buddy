@@ -16,6 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        overridePendingTransition(R.anim.slide_up,R.anim.slide_up_pre_activity);
 
         ImageButton messageBtn = findViewById(R.id.messageBtn);
 
@@ -43,9 +44,13 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(i);
         });
         MaterialButton logoutBtn = findViewById(R.id.logout);
-        logoutBtn.setOnClickListener(view->{
-            logout();
-        });
+        logoutBtn.setOnClickListener(view-> logout());
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_down_pre_activity,R.anim.slide_down);
     }
 
     private void logout() {
