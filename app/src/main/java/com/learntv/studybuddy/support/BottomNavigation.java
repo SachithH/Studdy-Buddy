@@ -6,15 +6,17 @@ import android.content.Intent;
 
 import com.learntv.studybuddy.HomeActivity;
 import com.learntv.studybuddy.R;
+import com.learntv.studybuddy.SelectRoomsActivity;
 import com.learntv.studybuddy.SettingsActivity;
 import com.learntv.studybuddy.WalletActivity;
 
 public class BottomNavigation {
     @SuppressLint("NonConstantResourceId")
-    public static void bottomNavigationFunction(Context context, int id){
+    public static void bottomNavigationFunction(Context context, int id,String token){
         switch(id) {
             case R.id.homeBottom:
-                Intent home = new Intent(context, HomeActivity.class);
+                Intent home = new Intent(context, SelectRoomsActivity.class);
+                home.putExtra("token",token);
                 home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(home);
                 break;

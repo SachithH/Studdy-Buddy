@@ -85,7 +85,7 @@ public interface ApiInterface {
     );
 
     @FormUrlEncoded
-    @POST("/studybuddy/v1/student/learning/answer/")
+    @POST("/studybuddy/v1/student/learning/setAnswer/")
     Call<McqResponse> check_mcq(
             @Field("api_key") String apiKey,
             @Field("api_secret") String apiSecret,

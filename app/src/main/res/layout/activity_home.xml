@@ -51,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/for_more_details"
-            android:textAppearance="@style/ganganeeText" />
+            android:textSize="30sp"
+            android:textAppearance="@style/font_fontFamily_sinhala_bold" />
 
         <TextView
             android:id="@+id/aboutThis"
@@ -59,7 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/watch_this_video"
-            android:textAppearance="@style/malithiText" />
+            android:textSize="14sp"
+            android:textAppearance="@style/font_fontFamily_sinhala_medium" />
 
 
         <com.google.android.material.button.MaterialButton

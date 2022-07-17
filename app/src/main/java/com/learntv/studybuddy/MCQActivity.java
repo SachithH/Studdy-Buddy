@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -286,6 +285,7 @@ public class MCQActivity extends AppCompatActivity {
                                     answerView(false);
                                 }
                             }else{
+                                Log.d("onResponse: ",errorCode);
                             pushErrors(errorCode,Errors);
                             }
                         }

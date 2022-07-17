@@ -29,9 +29,9 @@ public class SignInPost {
     public void signInWithServer(
             String mobile,
             String password,
+            Context context,
             login signInPostLogin,
             showErrors signInPostError,
-            Context context,
             boolean rememberMeIn,
             CircularProgressIndicator circularProgress){
         this.context = context;
@@ -97,8 +97,7 @@ public class SignInPost {
     public void loginToGrades(String token, String email) {
         PrefManager prefManager = new PrefManager(context);
         prefManager.saveLoginToken(token);
-        signInPostLogin.login(token,email);
-
+        if (signInPostLogin!=null) signInPostLogin.login(token, email);
     }
 
     public interface login{

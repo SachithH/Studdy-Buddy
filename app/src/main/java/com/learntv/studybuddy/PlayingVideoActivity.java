@@ -94,6 +94,10 @@ public class PlayingVideoActivity extends AppCompatActivity{
                         videoUrl = lessonResponse.getData().get(0).getVideoUrls().get(quality).getVideoUrl();
                         GetVideoAsync getVideoAsync = new GetVideoAsync();
                         getVideoAsync.executeAsync();
+                        Log.d("onResponse: ",apiKey);
+                        Log.d("onResponse: ",apiSecret);
+                        Log.d("onResponse: ",token);
+                        Log.d("onResponse: ", String.valueOf(videoId));
                     }else {
                         if(lessonResponse.getErrors()!=null){
                             pushErrors(lessonResponse.getErrors().getStatusCode(),lessonResponse.getErrors().getDescription());

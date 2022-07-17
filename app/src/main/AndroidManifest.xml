@@ -9,8 +9,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StudyBuddy"
+        android:theme="@style/Theme.StudyBuddy.Default"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".SelectRoomsActivity"
+            android:configChanges="orientation|screenSize|layoutDirection"
+            android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
@@ -59,7 +63,7 @@
         <activity
             android:name=".HomeActivity"
             android:configChanges="keyboard"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

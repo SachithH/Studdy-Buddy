@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,6 +25,7 @@ import com.learntv.studybuddy.retrofit.SignUpResponse;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -42,6 +44,14 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        MaterialToolbar materialToolbar = findViewById(R.id.topAppBar);
+        setSupportActionBar(materialToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+
+        materialToolbar.setNavigationOnClickListener(view -> {
+            finish();
+        });
 
         circularProgress = findViewById(R.id.progress_circular);
         circularProgress.setVisibility(View.INVISIBLE);

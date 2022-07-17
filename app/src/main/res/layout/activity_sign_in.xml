@@ -33,7 +33,7 @@
                 android:id="@+id/signInMobileNumber"
                 android:layout_width="@dimen/sign_input_width"
                 android:layout_height="@dimen/sign_input_height"
-                android:inputType="text"
+                android:inputType="number"
                 android:singleLine="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -61,12 +61,24 @@
         </com.google.android.material.textfield.TextInputLayout>
         <!--Password End-->
 
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password"
+            android:textAppearance="@style/font_fontFamily_sinhala_medium"
+            android:textSize="16sp"
+            android:textColor="?attr/colorAccent"
+            android:clickable="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="35dp"
+            />
+
         <!--Sign In Button-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/profileSignIn"
             android:layout_width="@dimen/sign_input_width"
             android:layout_height="@dimen/sign_input_height"
-            android:layout_marginTop="35dp"
             android:background="@drawable/signup_btns"
             style="@style/yellowBtn"
             android:text="@string/sign_in"/>

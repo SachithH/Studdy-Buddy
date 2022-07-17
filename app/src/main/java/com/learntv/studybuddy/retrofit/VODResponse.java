@@ -40,5 +40,4 @@ public class VODResponse {
         this.data = data;
     }
 
-
 }

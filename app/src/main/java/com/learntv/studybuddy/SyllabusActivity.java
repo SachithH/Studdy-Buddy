@@ -63,7 +63,7 @@ public class SyllabusActivity extends AppCompatActivity implements View.OnClickL
         bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            bottomNavigationFunction(getApplicationContext(),item.getItemId());
+            bottomNavigationFunction(getApplicationContext(),item.getItemId(),token);
             switch(item.getItemId()) {
                 case R.id.homeBottom:
                 case R.id.setting:

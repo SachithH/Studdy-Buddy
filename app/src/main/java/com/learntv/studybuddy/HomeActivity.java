@@ -11,9 +11,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.learntv.studybuddy.retrofit.SignIn;
 
 public class HomeActivity extends AppCompatActivity {
-    private String clientId = "390938103180-oohm564b8l2cgv3p5th3i095nv5h30sg.apps.googleusercontent.com";
-    private GoogleSignInClient mGoogleSignInClient;
-    private SignIn googleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

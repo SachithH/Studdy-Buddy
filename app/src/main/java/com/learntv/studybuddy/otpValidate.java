@@ -180,6 +180,7 @@ public class otpValidate extends AppCompatActivity {
         bundle.putString("deviceId",deviceId);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     private void pushErrors(String errorcode, String Description) {

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -123,6 +124,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        TextView forgotPassword = findViewById(R.id.forgotPassword);
 
 
 
@@ -154,7 +156,7 @@ public class SignInActivity extends AppCompatActivity {
         if (rememberMe!=null){
             remember = rememberMe.isChecked();
         }
-        new SignInPost().signInWithServer(mobile,hashPW, signInPostLogin, signInPostError,getApplicationContext(),remember,circularProgress);
+        new SignInPost().signInWithServer(mobile,hashPW, getApplicationContext(),signInPostLogin, signInPostError,remember,circularProgress);
     }
 
     //    validate email
@@ -203,7 +205,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void login(String token, String email) {
-                Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
+                Intent intent = new Intent(getApplicationContext(),SelectRoomsActivity.class);
                 intent.putExtra("token",token);
                 startActivity(intent);
                 Log.d("loginToGrades: ",token);

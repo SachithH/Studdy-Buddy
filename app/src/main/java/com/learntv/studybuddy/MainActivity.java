@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void login(String token, String email) {
-                Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
+                Intent intent = new Intent(getApplicationContext(),SelectRoomsActivity.class);
                 intent.putExtra("token",token);
                 startActivity(intent);
                 Log.d("loginToGrades: ",token);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         tokenAuthenticateLogin = new TokenAuthenticate.login(){
             @Override
             public void login(String token) {
-                Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
+                Intent intent = new Intent(getApplicationContext(),SelectRoomsActivity.class);
                 intent.putExtra("token",token);
                 startActivity(intent);
                 Log.d("loginToGrades: ",token);

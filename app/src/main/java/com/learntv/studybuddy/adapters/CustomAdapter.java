@@ -19,10 +19,10 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter <CustomAdapter.MyViewHolder>{
     private  int column;
     Context context;
-    private String[]logos;
+    private int[]logos;
     private RecyclerViewClickListener listener;
 
-    public CustomAdapter(Context applicationContext, String[] logos, RecyclerViewClickListener listener, int column){
+    public CustomAdapter(Context applicationContext, int[] logos, RecyclerViewClickListener listener, int column){
         this.context = applicationContext;
         this.logos = logos;
         this.listener = listener;
@@ -40,7 +40,7 @@ public class CustomAdapter extends RecyclerView.Adapter <CustomAdapter.MyViewHol
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         //set the data
-        holder.getTextView().setText(logos[position]);
+        holder.getTextView().setText(String.valueOf(logos[position]));
     }
 
     @Override

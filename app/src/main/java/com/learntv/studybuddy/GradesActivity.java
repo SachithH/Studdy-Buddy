@@ -35,7 +35,7 @@ public class GradesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private CustomAdapter.RecyclerViewClickListener listener;
     private String token;
-    final private String[] grades = {"6", "7", "8", "9", "10", "11", "12", "13"};
+    final private int[] grades = {6, 7, 8, 9, 10, 11, 12, 13};
     private MaterialToolbar topAppBar;
     private DrawerLayout drawerLayout;
     private SignInPost.showErrors signInPostError;
@@ -51,6 +51,7 @@ public class GradesActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             token = extras.getString("token");
+            Log.d("onCreate: ",token);
         }
 
         //Set Adapter
@@ -68,7 +69,7 @@ public class GradesActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                bottomNavigationFunction(getApplicationContext(),item.getItemId());
+                bottomNavigationFunction(getApplicationContext(),item.getItemId(),token);
                 switch(item.getItemId()) {
                     case R.id.homeBottom:
                     case R.id.setting:
@@ -86,7 +87,7 @@ public class GradesActivity extends AppCompatActivity {
     private void checkToken() {
         setAction();
         TokenAuthenticate tokenAuthenticate = new TokenAuthenticate();
-        tokenAuthenticate.setData(token,getApplicationContext(),circularProgressIndicator,signInPostError,signInPostLogin,tokenAuthenticateLogin);
+        tokenAuthenticate.setData(token,getApplicationContext(),circularProgressIndicator,signInPostError,null,tokenAuthenticateLogin);
         tokenAuthenticate.checkToken();
     }
 
@@ -100,17 +101,6 @@ public class GradesActivity extends AppCompatActivity {
     }
 
     public void setAction(){
-        signInPostLogin = new SignInPost.login(){
-
-            @Override
-            public void login(String token, String email) {
-                Intent intent = new Intent(getApplicationContext(),GradesActivity.class);
-                intent.putExtra("token",token);
-                startActivity(intent);
-                Log.d("loginToGrades: ",token);
-                finish();
-            }
-        };
 
         signInPostError = new SignInPost.showErrors(){
             @Override
@@ -151,7 +141,7 @@ public class GradesActivity extends AppCompatActivity {
             public void onClick(View v, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("token",token);
-                bundle.putString("gradeId",grades[position]);
+                bundle.putInt("gradeId",grades[position]);
                 Intent intent = new Intent(getApplicationContext(),SyllabusActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

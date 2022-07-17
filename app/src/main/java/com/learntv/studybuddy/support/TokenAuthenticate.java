@@ -29,7 +29,6 @@ public class TokenAuthenticate {
     private CircularProgressIndicator circularProgress;//not required
     private SignInPost.login signInPostLogin;
     private SignInPost.showErrors signInPostError;//not required
-    boolean validate = false;
     private login tokenAuthenticationLogin;
 
     public void setData(
@@ -92,7 +91,7 @@ public class TokenAuthenticate {
 
 
             if (isValidPhoneNumber(savedMobile) && validatePwd(savedPassword)) {
-                new SignInPost().signInWithServer(savedMobile,savedPassword,signInPostLogin,signInPostError,context,false,circularProgress);
+                new SignInPost().signInWithServer(savedMobile,savedPassword,context,signInPostLogin,signInPostError,false,circularProgress);
             }
 
 
@@ -108,7 +107,8 @@ public class TokenAuthenticate {
     }
 
     public void loginToActivity(String token) {
-        tokenAuthenticationLogin.login(token);
+        Toast.makeText(context,"Token Verified",Toast.LENGTH_SHORT).show();
+        if (tokenAuthenticationLogin!=null)tokenAuthenticationLogin.login(token);
 
     }
 
