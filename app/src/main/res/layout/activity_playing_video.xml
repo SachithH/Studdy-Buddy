@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    tools:context=".PlayingVideoActivity">
+    tools:context=".PlayingVideoActivity"
+    android:background="@drawable/gradient_background">
 
     <TextView
         android:id="@+id/video_heading"

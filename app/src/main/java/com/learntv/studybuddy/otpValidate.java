@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class otpValidate extends AppCompatActivity {
+public class otpValidate extends BaseActivity {
     private TextView countDownTimer, resend, numberText;
     private EditText otpInput;
     public int counter;

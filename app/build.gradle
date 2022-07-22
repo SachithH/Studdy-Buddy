@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId "com.learntv.studybuddy"
-        minSdk 26
+        minSdk 24
         targetSdk 32
-        versionCode 6
-        versionName "1.06"
+        versionCode 8
+        versionName "1.08"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

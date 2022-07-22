@@ -2,16 +2,21 @@ package com.learntv.studybuddy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 
 import com.google.android.material.button.MaterialButton;
 import com.learntv.studybuddy.support.PrefManager;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
+    PrefManager prefManager;
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +50,32 @@ public class SettingsActivity extends AppCompatActivity {
         });
         MaterialButton logoutBtn = findViewById(R.id.logout);
         logoutBtn.setOnClickListener(view-> logout());
+        RadioGroup radioGroup = findViewById(R.id.radioGroup);
+
+        prefManager = new PrefManager(getApplicationContext());
+        int themeId;
+        if (prefManager.getThemeId()==0){
+            themeId = R.id.blue;
+        }else{
+            themeId = prefManager.getThemeId();
+        }
+
+        radioGroup.check(themeId);
+        radioGroup.setOnCheckedChangeListener((group,checkedId)->{
+            switch (checkedId) {
+                case R.id.light:
+                    prefManager.saveTheme(checkedId,R.style.Theme_StudyBuddy_Light);
+                    break;
+                case R.id.dark:
+                    prefManager.saveTheme(checkedId,R.style.Theme_StudyBuddy_Dark);
+                    break;
+                default:
+                    prefManager.saveTheme(checkedId,0);
+            }
+            Intent intent = new Intent(SettingsActivity.this,SelectRoomsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
     }
 
     @Override

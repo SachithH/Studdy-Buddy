@@ -32,7 +32,7 @@ public interface ApiInterface {
     Call<CommonResponse> otpVerify(
             @Field("api_key") String apiKey,
             @Field("api_secret") String apiSecret,
-            @Field("mobile") String mobile,
+            @Field("mobileNo") String mobile,
             @Field("otp") String otp
     );
 
@@ -87,12 +87,40 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("/studybuddy/v1/student/learning/setAnswer/")
     Call<McqResponse> check_mcq(
+            @Field("token") String token,
             @Field("api_key") String apiKey,
             @Field("api_secret") String apiSecret,
-            @Field("token") String token,
+            @Field("video_id") int video_id,
             @Field("question_id") int question_id,
             @Field("option_id") int option_id,
-            @Field("video_id") int video_id
+            @Field("started_at") String started_at,
+            @Field("ended_at") String ended_at
 
+    );
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/mobile/getRecoveryCode")
+    Call<CommonResponse> request_recovery(
+            @Field("mobileNo") String mobile,
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret
+    );
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/mobile/setRecoveryCode")
+    Call<CommonResponse> send_recovery_otp(
+            @Field("mobileNo") String mobile,
+            @Field("recovery_code") String recoveryCode,
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret
+    );
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/register/setPassword")
+    Call<CommonResponse> request_new_pw(
+            @Field("mobileNo") String mobile,
+            @Field("password") String password,
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret
     );
 }

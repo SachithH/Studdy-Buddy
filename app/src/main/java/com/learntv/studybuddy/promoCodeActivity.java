@@ -16,7 +16,7 @@ import com.learntv.studybuddy.support.SignUpPost;
 
 import java.util.Objects;
 
-public class promoCodeActivity extends AppCompatActivity {
+public class promoCodeActivity extends BaseActivity {
 
     private String mobileNo,password,deviceId,promoCode="";
     private TextInputEditText promoCodeInput;

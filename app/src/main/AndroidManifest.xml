@@ -12,12 +12,21 @@
         android:theme="@style/Theme.StudyBuddy.Default"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PasswordRecoveryCode"
+            android:exported="false" />
+        <activity
+            android:name=".EnterMobileActivity"
+            android:exported="false" />
+        <activity
             android:name=".SelectRoomsActivity"
             android:configChanges="orientation|screenSize|layoutDirection"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".promoCodeActivity"
             android:exported="false" />
@@ -41,9 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".VODListActivity"
-            android:exported="false"
-            android:label="@string/title_activity_vodlist"
-            android:theme="@style/Theme.StudyBuddy.NoActionBar" />
+            android:exported="false"/>
         <activity
             android:name=".SubjectsActivity"
             android:exported="false" />

@@ -1,5 +1,7 @@
 package com.learntv.studybuddy;
 
+import android.os.Build;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Base64;
@@ -33,6 +35,10 @@ public class PasswordHashing {
         PBEKeySpec spec = new PBEKeySpec(password, salt, 100000, 512);
         SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
         byte[] result = skf.generateSecret(spec).getEncoded();
-        return Base64.getEncoder().encodeToString(result);
+        if (Build.VERSION.SDK_INT >= 26) {
+            return Base64.getEncoder().encodeToString(result);
+        }else{
+            return android.util.Base64.encodeToString(result,0);
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <!--    Themes-->
-    <style name="Theme.StudyBuddy.Default" parent="Theme.StudyBuddy.NoActionBar">
+    <style name="Theme.StudyBuddy.Default" parent="Theme.StudyBuddy">
         <item name="android:windowLightStatusBar">false</item>
         <item name="colorAccent">@color/accent</item>
     </style>
@@ -9,20 +9,20 @@
     <style name="Theme.StudyBuddy.Light" parent="Theme.StudyBuddy.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/centerLight</item>
+        <item name="colorSecondary">@color/centerLight</item>
         <item name="colorOnPrimary">@color/black</item>
-        <item name="android:colorSecondary">@color/gray</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryInverse">@color/black</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.StudyBuddy.Dark" parent="Theme.StudyBuddy.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/gray</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">#131313</item>
         <item name="colorSecondary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryInverse">@color/white</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
@@ -32,12 +32,11 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
-    <style name="yellowBtn" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">@color/signBtnTxt</item>
-        <item name="backgroundTint">?attr/colorAccent</item>
-        <item name="android:textAppearance">@style/gradesText</item>
-        <item name="android:textSize">30sp</item>
+    <style name="Widget.App.Button.OutlinedButton.BackgroundOnly" parent="Widget.MaterialComponents.Button">
         <item name="shapeAppearance">@style/BtnShape</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:layout_margin">5dp</item>
     </style>
 
     <style name="whiteBtn" parent="Widget.MaterialComponents.Button">
@@ -45,7 +44,10 @@
         <item name="android:textSize">30sp</item>
         <item name="android:textAppearance">@style/gradesText</item>
         <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="rippleColor">?attr/colorAccent</item>
         <item name="shapeAppearance">@style/BtnShape</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
     </style>
 
     <style name="BtnShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
@@ -109,13 +111,12 @@
     </style>
     
     <style name="inputBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">20dp</item>
-        <item name="boxCornerRadiusTopEnd">20dp</item>
-        <item name="boxCornerRadiusBottomStart">20dp</item>
-        <item name="boxCornerRadiusBottomEnd">20dp</item>
-        <item name="android:textColorHint">@color/white</item>
-        <item name="hintTextColor">@color/gray</item>
-
+        <item name="shapeAppearance">@style/inputShape</item>
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+        <item name="hintTextColor">?attr/colorAccent</item>
+        <item name="boxStrokeColor">@color/inputs</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="passwordToggleTint">?attr/colorOnPrimary</item>
     </style>
 
     <style name="sysBackInputBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -131,14 +132,20 @@
 
     <style name="searchBtn" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20%</item>
+        <item name="cornerSize">50%</item>
     </style>
 
-    <style name="qualityBtn" parent="Widget.AppCompat.Button">
+    <style name="inputShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="qualityBtn" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/signBtnTxt</item>
-        <item name="background">@drawable/white_btn</item>
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
         <item name="android:textSize">18sp</item>
         <item name="fontFamily">@font/gilroy_bold</item>
+        <item name="rippleColor">?attr/colorAccent</item>
     </style>
 
     <style name="mcqDialogAnimation">

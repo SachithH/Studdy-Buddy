@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class SyllabusActivity extends AppCompatActivity implements View.OnClickListener {
+public class SyllabusActivity extends BaseActivity implements View.OnClickListener {
     Bundle extra_details = new Bundle();
     int position = 0;
     String []Grades = {

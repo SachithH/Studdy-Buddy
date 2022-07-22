@@ -17,7 +17,7 @@ public class Validating {
 
     //    password validate
     public static boolean validatePwd(String passwordStr) {
-        return 0 < passwordStr.length();
+        return 7 < passwordStr.length();
 //        end password validate
 
 

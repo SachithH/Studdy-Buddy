@@ -15,7 +15,7 @@ import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.SignInPost;
 import com.learntv.studybuddy.support.TokenAuthenticate;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private Handler handler;
     private SignInPost.login signInPostLogin;
     boolean validate = false;
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         token = prefManager.getToken();
         if(token.isEmpty()){
             startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            finish();
         }else{
             setAction();
             TokenAuthenticate tokenAuthenticate = new TokenAuthenticate();

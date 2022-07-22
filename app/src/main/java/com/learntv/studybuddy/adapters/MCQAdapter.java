@@ -6,13 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.learntv.studybuddy.R;
 import com.learntv.studybuddy.retrofit.LessonData;
 import com.learntv.studybuddy.retrofit.LessonMcqOption;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -70,67 +74,80 @@ public class MCQAdapter extends RecyclerView.Adapter<MCQAdapter.MyViewHolder> {
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Button mcqButton = holder.getButton();
+        TextView mcqText = holder.getTextView();
         Button number = holder.getNumber();
+        ConstraintLayout constraintLayout = holder.getConstraintLayout();
         number.setText(listNumber[position]);
-        mcqButton.setText(lessonData.getMcq().get(qId).getOptions().get(position).getOption());
+        mcqText.setText(lessonData.getMcq().get(qId).getOptions().get(position).getOption());
         if (selectVal==position&&!checkVal){
-            mcqButton.setBackground(context.getResources().getDrawable(R.drawable.selected_answer_btn,context.getTheme()));
+            constraintLayout.setBackground(context.getResources().getDrawable(R.drawable.selected_answer_btn,context.getTheme()));
             number.setBackground(context.getResources().getDrawable(R.drawable.selected_answer_btn,context.getTheme()));
         }else {
-            mcqButton.setBackground(context.getResources().getDrawable(R.drawable.mcq_answer_btn,context.getTheme()));
+            constraintLayout.setBackground(context.getResources().getDrawable(R.drawable.mcq_answer_btn,context.getTheme()));
             number.setBackground(context.getResources().getDrawable(R.drawable.mcq_answer_btn,context.getTheme()));
         }
         if (checkVal){
             if (lessonMcqOption.get(position).getIsCorrect()){
-                mcqButton.setBackground(context.getResources().getDrawable(R.drawable.mcq_correct_btn,context.getTheme()));
+                constraintLayout.setBackground(context.getResources().getDrawable(R.drawable.mcq_correct_btn,context.getTheme()));
                 number.setBackground(context.getResources().getDrawable(R.drawable.mcq_correct_btn,context.getTheme()));
             }else {
                 if (finalPos==position){
-                    mcqButton.setBackground(context.getResources().getDrawable(R.drawable.mcq_wrong_answer,context.getTheme()));
+                    constraintLayout.setBackground(context.getResources().getDrawable(R.drawable.mcq_wrong_answer,context.getTheme()));
                     number.setBackground(context.getResources().getDrawable(R.drawable.mcq_wrong_answer,context.getTheme()));
                 }
             }
         }
+        String imageUrl = lessonData.getMcq().get(qId).getOptions().get(position).getImage();
+        if (!imageUrl.equals("")){
+            Picasso.get().load(imageUrl).placeholder(R.drawable.gradient_background).into(holder.getMcqAnswerImageView());
+        }
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
-        private Button button;
         private Button number;
+        private TextView textView;
+        private ShapeableImageView mcqAnswerImageView;
+        private ConstraintLayout constraintLayout;
+
         public MyViewHolder(@NonNull View view) {
             super(view);
             number = (Button) itemView.findViewById(R.id.number);
-            button = (Button) itemView.findViewById(R.id.button);
+            mcqAnswerImageView = (ShapeableImageView) itemView.findViewById(R.id.mcqAnswerImgeView);
+            textView = (TextView) itemView.findViewById(R.id.mcqAnswerText);
+            constraintLayout = (ConstraintLayout) itemView.findViewById(R.id.constraint);
+
 
             number.setOnClickListener(this);
             number.setOnLongClickListener(this);
-            button.setOnClickListener(this);
-            button.setOnLongClickListener(this);
+            textView.setOnClickListener(this);
+            textView.setOnLongClickListener(this);
 
         }
 
-        public Button getButton() {
-            return button;
-        }
+        public ShapeableImageView getMcqAnswerImageView() {return mcqAnswerImageView;}
+        public ConstraintLayout getConstraintLayout() {return constraintLayout;}
+        public TextView getTextView() {return textView;}
         public Button getNumber() {return number;}
 
         @Override
         public void onClick(View view) {
-            listener.onClick(view,getBindingAdapterPosition(), getButton(),lessonData);
+            listener.onClick(view,getBindingAdapterPosition(), getConstraintLayout(),lessonData);
         }
 
         @Override
         public boolean onLongClick(View view) {
-            longClickListener.onLongClick(view,getBindingAdapterPosition(),getButton(),getNumber(),lessonData);
+            longClickListener.onLongClick(view,getBindingAdapterPosition(),getConstraintLayout(),getNumber(),lessonData);
             return true;
         }
+
     }
 
     public interface RecyclerViewClickListener {
-        void onClick(View v, int position, Button button, LessonData lessonData);
+        void onClick(View v, int position, ConstraintLayout button, LessonData lessonData);
     }
 
     public interface RecyclerViewLongClickListener{
-        boolean onLongClick(View v, int position, Button button, Button number, LessonData lessonData);
+        boolean onLongClick(View v, int position, ConstraintLayout button, Button number, LessonData lessonData);
     }
 }

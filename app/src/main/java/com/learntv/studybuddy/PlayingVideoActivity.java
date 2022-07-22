@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlayingVideoActivity extends AppCompatActivity{
+public class PlayingVideoActivity extends BaseActivity{
     private String line,token,videoUrl;
     ArrayList<String> URL = new ArrayList<>();
     private ExoPlayer player;

@@ -12,16 +12,13 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.learntv.studybuddy.retrofit.SignUpResponse;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -29,8 +26,8 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SignUpActivity extends AppCompatActivity {
-    private EditText USignUpPassword,USignUpRetypePassword,USignUpContact;
+public class SignUpActivity extends BaseActivity {
+    private TextInputEditText USignUpPassword,USignUpRetypePassword,USignUpContact;
     private TextInputLayout FieldUSignUpPassword,FieldUSignUpRetypePassword,FieldUSignUpContact;
     private String password,retypePassword,contact;
     private String hashPW;

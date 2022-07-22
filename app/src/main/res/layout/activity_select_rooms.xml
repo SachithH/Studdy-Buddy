@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Gaming Room"
-            style="@style/yellowBtn" />
+            style="@style/whiteBtn" />
 
     </LinearLayout>
 

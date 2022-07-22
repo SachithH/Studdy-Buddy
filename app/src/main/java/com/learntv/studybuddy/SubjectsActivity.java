@@ -14,7 +14,7 @@ import com.learntv.studybuddy.adapters.SubjectAdapter;
 
 import java.util.ArrayList;
 
-public class SubjectsActivity extends AppCompatActivity {
+public class SubjectsActivity extends BaseActivity {
     RecyclerView recyclerView;
     ArrayList<Integer> logos = new ArrayList<>();
     private SubjectAdapter.RecyclerViewClickListener listener;

@@ -46,4 +46,22 @@ public class PrefManager {
         boolean isPasswordEmpty = sharedPreferences.getString("Password", "").isEmpty();
         return isEmailEmpty || isPasswordEmpty;
     }
+
+    public void saveTheme(int id, int theme){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppTheme",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("Theme",theme);
+        editor.putInt("Id",id);
+        editor.apply();
+    }
+
+    public int getTheme(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppTheme",Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("Theme",0);
+    }
+
+    public int getThemeId(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("AppTheme",Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("Id",0);
+    }
 }

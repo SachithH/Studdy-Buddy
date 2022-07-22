@@ -2,7 +2,6 @@ package com.learntv.studybuddy;
 
 import static com.learntv.studybuddy.PasswordHashing.createHash;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,26 +19,21 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.learntv.studybuddy.retrofit.SignIn;
 import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.SignInPost;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends BaseActivity {
     private TextInputEditText mobileInput,passwordInput;
     private CheckBox rememberMe;
-    private SignIn signUpResponseData;
     private String hashPW;
-    private String errors = "Something went wrong. Please try again Later";
     private CircularProgressIndicator circularProgress;
     private PrefManager prefManager;
-    private MaterialAlertDialogBuilder builder;
-    private final String apiKey = "be2f97570be40d5595fddaa64995b6534e6bae5ba9e86ed0";
-    private final String apiSecret = "lu55mgL5sIuDNcxCfXOkydElrfr6ehxyhrNsB8aBqe0ASPIX9XB6c5k8+4NfV15SMv0aipGd0gtzwbrDEqVf3T4A";
     private SignInPost.login signInPostLogin;
     private SignInPost.showErrors signInPostError;
     private TextInputLayout mobileTextField,passwordTextField;
@@ -51,80 +45,79 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         circularProgress = findViewById(R.id.progress_circular);
-//        End of hide status bar
+        mobileInput = findViewById(R.id.signInMobileNumber);
+        passwordInput = findViewById(R.id.signInPassword);
+        mobileTextField = findViewById(R.id.signInMobileNumberTextField);
+        passwordTextField = findViewById(R.id.signInPasswordTextField);
 
         //remember me
         prefManager = new PrefManager(getApplicationContext());
-        if (!prefManager.isUserLoggedOut()) {
+        if (prefManager.isUserLoggedOut()) {
             circularProgress.setVisibility(View.VISIBLE);
             setAction();
-            //user's email and password both are saved in preferences
-            String savedMobile = prefManager.getMobile();
-            String savedPassword = prefManager.getPassword();
 
-
-
-            if (isValidPhoneNumber(savedMobile) && validatePwd(savedPassword)) {
-                    signIn(savedMobile,savedPassword);
-            }
 
 
         }else{
             circularProgress.setVisibility(View.INVISIBLE);
+            //user's email and password both are saved in preferences
+            String savedMobile = prefManager.getMobile();
+
+            mobileInput.setText(savedMobile);
         }
         //end remember me
 
 //        username and password
-        mobileInput = findViewById(R.id.signInMobileNumber);
-        passwordInput = findViewById(R.id.signInPassword);
         rememberMe = findViewById(R.id.rememberMe);
-        mobileTextField = findViewById(R.id.signInMobileNumberTextField);
-        passwordTextField = findViewById(R.id.signInPasswordTextField);
 
 
-        mobileInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                String mobile = mobileInput.getText().toString().trim();
+        mobileInput.setOnFocusChangeListener((view, hasFocus) -> {
+            String mobile = Objects.requireNonNull(mobileInput.getText()).toString().trim();
+            if(!hasFocus)
+            {
                 isValidPhoneNumber(mobile);
-            }
+            }else{
+                mobileTextField.setErrorEnabled(false);
+            };
         });
 
 //        Password
-        passwordInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                String password = passwordInput.getText().toString().trim();
+        passwordInput.setOnFocusChangeListener((view, hasFocus) -> {
+            String password = Objects.requireNonNull(passwordInput.getText()).toString().trim();
+            if(!hasFocus) {
                 validatePwd(password);
-            }
+            }else{
+                passwordTextField.setErrorEnabled(false);
+            };
         });
 
         //Sign In Button
         Button signIn = findViewById(R.id.profileSignIn);
 
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setAction();
-                String mobile = mobileInput.getText().toString().trim();
-                String password = passwordInput.getText().toString().trim();
-                //Create hash password
+        signIn.setOnClickListener(view -> {
+            setAction();
+            String mobile = Objects.requireNonNull(mobileInput.getText()).toString().trim();
+            String password = Objects.requireNonNull(passwordInput.getText()).toString().trim();
+            //Create hash password
 
 
 
-                // validate the fields and call sign method to implement the api
-                if (isValidPhoneNumber(mobile) && validatePwd(password)) {
-                    circularProgress.setVisibility(View.VISIBLE);
+            // validate the fields and call sign method to implement the api
+            if (isValidPhoneNumber(mobile) && validatePwd(password)) {
+                circularProgress.setVisibility(View.VISIBLE);
 
-                    BackgroundSignIn backgroundSignIn = new BackgroundSignIn();
-                    backgroundSignIn.executeAsync(mobile,password);
-
-                }
+                BackgroundSignIn backgroundSignIn = new BackgroundSignIn();
+                backgroundSignIn.executeAsync(mobile,password);
 
             }
+
         });
 
         TextView forgotPassword = findViewById(R.id.forgotPassword);
+        forgotPassword.setOnClickListener(view -> {
+            Intent forgotPasswordIntent = new Intent(SignInActivity.this,EnterMobileActivity.class);
+            startActivity(forgotPasswordIntent);
+        });
 
 
 
@@ -143,9 +136,7 @@ public class SignInActivity extends AppCompatActivity {
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                     e.printStackTrace();
                 }
-                handler.post(()->{
-                        signIn(mobile,hashPW);
-                });
+                handler.post(()-> signIn(mobile,hashPW));
             });
 
         }
@@ -201,39 +192,24 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void setAction(){
-        signInPostLogin = new SignInPost.login(){
-
-            @Override
-            public void login(String token, String email) {
-                Intent intent = new Intent(getApplicationContext(),SelectRoomsActivity.class);
-                intent.putExtra("token",token);
-                startActivity(intent);
-                Log.d("loginToGrades: ",token);
-                finish();
-            }
+        signInPostLogin = (token, email) -> {
+            Intent intent = new Intent(getApplicationContext(),SelectRoomsActivity.class);
+            intent.putExtra("token",token);
+            startActivity(intent);
+            Log.d("loginToGrades: ",token);
+            finish();
         };
 
-        signInPostError = new SignInPost.showErrors(){
-            @Override
-            public void pushError(String error) {
-                circularProgress.setVisibility(View.INVISIBLE);
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignInActivity.this);
-                builder.setMessage(error);
-                builder.setCancelable(false);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+        signInPostError = error -> {
+            circularProgress.setVisibility(View.INVISIBLE);
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SignInActivity.this);
+            builder.setMessage(error);
+            builder.setCancelable(false);
+            builder.setPositiveButton("OK", (dialogInterface, i) -> {
 
-                    }
-                });
-                builder.setNeutralButton("Go back", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-                builder.show();
-            }
+            });
+            builder.setNeutralButton("Go back", (dialogInterface, i) -> finish());
+            builder.show();
         };
     }
 }

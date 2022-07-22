@@ -23,7 +23,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.learntv.studybuddy.adapters.MCQAdapter;
 import com.learntv.studybuddy.retrofit.Api;
 import com.learntv.studybuddy.retrofit.LessonData;
@@ -31,17 +30,20 @@ import com.learntv.studybuddy.retrofit.LessonResponse;
 import com.learntv.studybuddy.retrofit.McqData;
 import com.learntv.studybuddy.retrofit.McqResponse;
 import com.learntv.studybuddy.support.ShowErrors;
+import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MCQActivity extends AppCompatActivity {
+public class MCQActivity extends BaseActivity {
     MCQAdapter.RecyclerViewClickListener listener;
     MCQAdapter.RecyclerViewLongClickListener longClickListener;
     private RecyclerView answersList;
-    private TextView question,headingQ, mcqCountText;
-    LinearProgressIndicator mcqProgress;
+    private TextView question,headingQ;
     private MCQAdapter mcqAdapter;
     private TextView countDownTimer;
     public int counter = 60;
@@ -61,6 +63,7 @@ public class MCQActivity extends AppCompatActivity {
     private CircularProgressIndicator mcqProgressCircular;
     private int earning = 0;
     private Dialog dialog;
+    private String started_at,ended_at;
 
 
     @SuppressLint("SetTextI18n")
@@ -81,18 +84,25 @@ public class MCQActivity extends AppCompatActivity {
         }
         answersList = findViewById(R.id.answersList);
         countDownTimer = findViewById(R.id.countDownTimer);
-        mcqProgress = findViewById(R.id.progressBar);
         headingQ = findViewById(R.id.headingQ);
         question = findViewById(R.id.question);
-        mcqCountText = findViewById(R.id.mcqCountText);
         mcqProgressCircular = findViewById(R.id.progress_circular_mcq);
-        
-        mcqCountText.setText(mcqCountPlus+getResources().getString(R.string.mcqCountText));
 
         timerCD = new timer().countDownTime;
         timerCD.start();
-        mcqProgress.setProgressCompat(mcqCount,true);
-        
+
+        ShapeableImageView shapeableImageView = findViewById(R.id.mcqHeadingImageView);
+        Picasso.get().load("http://edutv.lk/video/thumb/maths-06-t1-l01-ep02-q-1.jpg").placeholder(R.drawable.gradient_background).into(shapeableImageView);
+
+
+        started_at = getDateTime();
+    }
+
+    private String getDateTime(){
+        Date startAt = new Date();
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(startAt);
     }
 
     private void getLessonData() {
@@ -154,6 +164,7 @@ public class MCQActivity extends AppCompatActivity {
             public  void onFinish(){
                 mcqProgressCircular.setProgressCompat(0,true);
                 countDownTimer.setText("0");
+                ended_at = getDateTime();
                 checkAnswer(tempPosition);
             }
         };
@@ -217,11 +228,6 @@ public class MCQActivity extends AppCompatActivity {
         mcqCount = mcqCount + 1;
         mcqCountPlus = mcqCount+1;
 
-        mcqProgress.setProgressCompat(mcqCountPlus,true);
-        mcqCountText.setText(mcqCountPlus+getResources().getString(R.string.mcqCountText));
-
-
-
         checked = false;
         submit = false;
 
@@ -241,7 +247,7 @@ public class MCQActivity extends AppCompatActivity {
         if (position<4){
             optionId = lessonResponse.getData().get(0).getMcq().get(qId).getOptions().get(position).getId();
         }else {
-            optionId = 0;
+            optionId = lessonResponse.getData().get(0).getMcq().get(qId).getOptions().get(0).getId();
         }
         Log.d("checkAnswerStatus: ",ansApiKey);
         Log.d("checkAnswerStatus: ",ansApiSecret);
@@ -249,13 +255,18 @@ public class MCQActivity extends AppCompatActivity {
         Log.d("checkAnswerStatus: ", String.valueOf(quetionId));
         Log.d("checkAnswerStatus: ", String.valueOf(optionId));
         Log.d("checkAnswerStatus: ", String.valueOf(videoId));
+        Log.d("checkAnswerStatus: ", started_at);
+        Log.d("checkAnswerStatus: ", ended_at);
         (Api.getClient().check_mcq(
+                token,
                 ansApiKey,
                 ansApiSecret,
-                token,
+                videoId,
                 quetionId,
                 optionId,
-                videoId
+                started_at,
+                ended_at
+
 
         )).enqueue(new Callback<McqResponse>() {
             @Override
@@ -276,7 +287,7 @@ public class MCQActivity extends AppCompatActivity {
                         if (mcqResponse.getErrors()!=null){
                             String Errors = mcqResponse.getErrors().getDescription();
                             String errorCode = mcqResponse.getErrors().getStatusCode();
-                            if(errorCode.equals("1014")){
+                            if(errorCode.equals("1016")){
                                 if (position<4) {
                                     boolean isCorrect = lessonResponse.getData().get(0).getMcq().get(qId).getOptions().get(position).getIsCorrect();
                                     Toast.makeText(MCQActivity.this, "You do not earn coins from this question. Because you have already answered this question", Toast.LENGTH_LONG).show();

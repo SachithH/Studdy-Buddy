@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VODListActivity extends AppCompatActivity implements View.OnClickListener {
+public class VODListActivity extends BaseActivity implements View.OnClickListener {
     VODAdapter.RecyclerViewClickListener listener;
     RecyclerView recyclerView;
     private VODResponse vodResponseData;
@@ -74,7 +75,6 @@ public class VODListActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         Toolbar mToolBar = findViewById(R.id.toolBar);
-        AppBarLayout appBar = findViewById(R.id.app_bar_vod);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewVOD);
         setSupportActionBar(mToolBar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -218,6 +218,8 @@ public class VODListActivity extends AppCompatActivity implements View.OnClickLi
         setOnClickListener();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(VODListActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        TextView subjectName = (TextView) findViewById(R.id.subjectName);
+        subjectName.setText(vodResponseData.getData().get(0).getSubjectS());
 
         vodAdapter = new VODAdapter(getApplicationContext(), vodResponseDataIn, listener);
         recyclerView.setAdapter(vodAdapter);

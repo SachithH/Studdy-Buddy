@@ -10,15 +10,13 @@ import com.google.android.material.button.MaterialButton;
 import com.learntv.studybuddy.support.PrefManager;
 import com.learntv.studybuddy.support.TokenAuthenticate;
 
-public class SelectRoomsActivity extends AppCompatActivity {
+public class SelectRoomsActivity extends BaseActivity {
     private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_rooms);
-
-        token = getIntent().getExtras().getString("token");
 
         checkToken();
 

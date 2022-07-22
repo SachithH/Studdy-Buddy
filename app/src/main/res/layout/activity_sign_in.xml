@@ -55,9 +55,7 @@
                 android:layout_height="@dimen/sign_input_height"
                 android:inputType="textPassword"
                 android:singleLine="true"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray" />
+                android:textAlignment="center" />
         </com.google.android.material.textfield.TextInputLayout>
         <!--Password End-->
 
@@ -78,9 +76,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/profileSignIn"
             android:layout_width="@dimen/sign_input_width"
-            android:layout_height="@dimen/sign_input_height"
-            android:background="@drawable/signup_btns"
-            style="@style/yellowBtn"
+            android:layout_height="wrap_content"
+            style="@style/whiteBtn"
             android:text="@string/sign_in"/>
 
         <CheckBox

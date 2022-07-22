@@ -12,14 +12,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationBarView;
@@ -28,18 +26,13 @@ import com.learntv.studybuddy.adapters.CustomAdapter;
 import com.learntv.studybuddy.support.SignInPost;
 import com.learntv.studybuddy.support.TokenAuthenticate;
 
-import java.util.ArrayList;
-
-public class GradesActivity extends AppCompatActivity {
+public class GradesActivity extends BaseActivity {
     CircularProgressIndicator circularProgressIndicator;
     RecyclerView recyclerView;
     private CustomAdapter.RecyclerViewClickListener listener;
     private String token;
     final private int[] grades = {6, 7, 8, 9, 10, 11, 12, 13};
-    private MaterialToolbar topAppBar;
-    private DrawerLayout drawerLayout;
     private SignInPost.showErrors signInPostError;
-    private SignInPost.login signInPostLogin;
     private TokenAuthenticate.login tokenAuthenticateLogin;
 
     @SuppressLint("NonConstantResourceId")

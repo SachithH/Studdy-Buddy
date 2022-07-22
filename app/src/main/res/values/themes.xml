@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/start</item>
         <item name="colorPrimaryVariant">@color/center</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryInverse">@color/black</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+        <item name="colorError">#EC0000</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/end</item>
         <item name="colorSecondaryVariant">@color/center</item>

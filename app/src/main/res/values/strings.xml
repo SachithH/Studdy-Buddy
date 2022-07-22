@@ -18,4 +18,5 @@
     <string name="wrong">වැරදියි</string>
     <string name="correct">නිවැරදියි</string>
     <string name="enter_otp_within_60_seconds">OTP has been sent to 07xxxxxxxx number\nEnter OTP within 60 seconds</string>
+    <string name="study_buddy">Study Buddy</string>
 </resources>

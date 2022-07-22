@@ -51,14 +51,40 @@
         app:layout_constraintTop_toBottomOf="@+id/settingProfilePicture"
         app:layout_constraintVertical_bias="0.1">
 
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Themes"
-            android:textAllCaps="false"
-            android:textAlignment="viewStart"/>
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Themes"
+                android:textAllCaps="false"
+                android:textAlignment="viewStart"/>
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:checkedButton="@+id/radio_button_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
+                <RadioButton
+                    android:id="@+id/blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/start"/>
+                <RadioButton
+                    android:id="@+id/dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/black"/>
+                <RadioButton
+                    android:id="@+id/light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/white"/>
+            </RadioGroup>
+         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
@@ -177,10 +203,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/sign_input_width"
         android:layout_height="wrap_content"
-        android:paddingVertical="10dp"
-        android:paddingHorizontal="30dp"
+        style="@style/whiteBtn"
         android:layout_marginBottom="20dp"
         android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
