@@ -2,9 +2,11 @@ package com.learntv.studybuddy.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,6 +57,16 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
         holder.getHeading().setText(headingText);
         holder.getShortDesc().setText(shortDescText);
 
+        if (vodResponseData.get(position).getFavoritedState()!=null){
+        if (vodResponseData.get(position).getFavoritedState().equals("True")){
+            holder.getFavouriteBtn().setChecked(true);
+            Log.d("onBindViewHolder: ", String.valueOf(vodResponseData.get(position).getId()));
+            Log.d("onBindViewHolder: ",vodResponseData.get(position).getFavoritedState());
+        }else{
+            holder.favouriteBtn.setChecked(false);
+            Log.d("onBindViewHolder: ", String.valueOf(vodResponseData.get(position).getId()));
+            Log.d("onBindViewHolder: ",vodResponseData.get(position).getFavoritedState());
+        }}
 
         String uri = vodResponseData.get(position).getThumb();
         Picasso.get().load(uri).placeholder(R.drawable.gradient_background).into(holder.getVodThumb());
@@ -66,7 +78,7 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
     }
 
     public class UsersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private final ImageButton favouriteBtn;
+        private final CheckBox favouriteBtn;
         private final TextView heading;
         private final TextView shortDesc;
         private final ImageView vodThumb;
@@ -96,7 +108,7 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
             return vodThumb;
         }
 
-        public ImageButton getFavouriteBtn(){
+        public CheckBox getFavouriteBtn(){
             return favouriteBtn;
         }
 

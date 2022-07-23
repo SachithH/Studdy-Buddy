@@ -15,17 +15,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.learntv.studybuddy.adapters.VODAdapter;
 import com.learntv.studybuddy.retrofit.Api;
+import com.learntv.studybuddy.retrofit.CommonResponse;
 import com.learntv.studybuddy.retrofit.VODResponse;
 import com.learntv.studybuddy.retrofit.VODResponseData;
 import com.learntv.studybuddy.support.ShowErrors;
@@ -34,7 +32,6 @@ import com.learntv.studybuddy.support.TokenAuthenticate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,8 +46,6 @@ public class VODListActivity extends BaseActivity implements View.OnClickListene
     private int syllabusId;
     private int subjectId;
     VODAdapter vodAdapter;
-    private String apiKey="76b3d18521fa7f12d7ea0402214408140c108a17634d97c5";
-    private String apiSecret="v1iMCBWxbq2UE4k/GRWt7xRjMkZGvoCSlZNqu+yC7mDIOp+/2X/6AANpuwaBARkxyEDQzYo0nZrAB5IMLwK6Sw==";
     private SignInPost.login signInPostLogin;
     private SignInPost.showErrors signInPostError;
     private TokenAuthenticate.login tokenAuthenticateLogin;
@@ -74,10 +69,7 @@ public class VODListActivity extends BaseActivity implements View.OnClickListene
             subjectId = extras.getInt("subjectId");
         }
 
-        Toolbar mToolBar = findViewById(R.id.toolBar);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewVOD);
-        setSupportActionBar(mToolBar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         circularProgressIndicator = findViewById(R.id.progress_circular_vodList);
         searchBar = findViewById(R.id.searchBar);
@@ -158,6 +150,8 @@ public class VODListActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setVOD() {
+        String apiKey="76b3d18521fa7f12d7ea0402214408140c108a17634d97c5";
+        String apiSecret="v1iMCBWxbq2UE4k/GRWt7xRjMkZGvoCSlZNqu+yC7mDIOp+/2X/6AANpuwaBARkxyEDQzYo0nZrAB5IMLwK6Sw==";
         Log.d("setVOD: ",token);
         Log.d("setVOD: ", String.valueOf(gradeId));
         Log.d("setVOD: ", String.valueOf(subjectId));
@@ -228,11 +222,17 @@ public class VODListActivity extends BaseActivity implements View.OnClickListene
     private void setOnClickListener() {
         listener = new VODAdapter.RecyclerViewClickListener() {
 
+            @SuppressLint("NonConstantResourceId")
             @Override
             public void onClick(View v, int position, List<VODResponseData> vodResponseDataNew) {
                 Log.d("Position: ", String.valueOf(position));
                 Log.d("Position: ", String.valueOf(vodResponseDataNew.get(position).getId()));
-                showQuality(v,position,vodResponseDataNew);
+                if (v.getId() == R.id.favouriteBtn) {
+                    setFavourite(position, vodResponseDataNew);
+                } else {
+                    showQuality(v, position, vodResponseDataNew);
+                }
+
             };
 
         };
@@ -247,6 +247,46 @@ public class VODListActivity extends BaseActivity implements View.OnClickListene
         dialog.show();
         video = new goToVideoClass();
         video.setData(position,vodResponseDataNew);
+    }
+
+    private void setFavourite(int position,List<VODResponseData> vodResponseDataNew){
+        String apiKey="202a3b589d98404fdd00f1583959e1abb62653ce2d45b1e3";
+        String apiSecret="dgXsZwxbb6j6r3wH6jLwfc0WwsMFId1d8sy8pJjgJcvuHvGl5EenFS3NehCbeB2+wh8mmS4QZPHcHDRz/px9ZQ7j";
+        int videoId = vodResponseDataNew.get(position).getId();
+        (Api.getClient().set_favourite(
+                apiKey,
+                apiSecret,
+                token,
+                videoId
+        )).enqueue(new Callback<CommonResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<CommonResponse> call,@NonNull Response<CommonResponse> response) {
+                CommonResponse favouriteResponse = response.body();
+                if (favouriteResponse!=null){
+                    if(favouriteResponse.getData()!=null){
+                        requestSuccess(favouriteResponse.getData().getDescription());
+                    }else{
+                        if(favouriteResponse.getError()!=null){
+                            requestSuccess(favouriteResponse.getError().getDescription());
+                        }else{
+                            requestSuccess("Something went wrong. Please try again later");
+                        }
+                    }
+                }else{
+                    requestSuccess("response null");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<CommonResponse> call,@NonNull Throwable t) {
+                requestSuccess("fail");
+            }
+        });
+    }
+
+    private void requestSuccess(String message){
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+
     }
 
         @SuppressLint("NonConstantResourceId")

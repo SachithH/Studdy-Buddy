@@ -41,6 +41,18 @@ public class VODResponseData {
     @SerializedName("fileName")
     @Expose
     private String fileName;
+    @SerializedName("favoritedState")
+    @Expose
+    private String favoritedState;
+    @SerializedName("completedState")
+    @Expose
+    private String completedState;
+    @SerializedName("totalCorrectAnswers")
+    @Expose
+    private String totalCorrectAnswers;
+    @SerializedName("totalQuestions")
+    @Expose
+    private String totalQuestions;
     @SerializedName("type")
     @Expose
     private String type;
@@ -160,4 +172,35 @@ public class VODResponseData {
         this.thumb = thumb;
     }
 
+    public String getFavoritedState() {
+        return favoritedState;
+    }
+
+    public void setFavoritedState(String favoritedState) {
+        this.favoritedState = favoritedState;
+    }
+
+    public String getCompletedState() {
+        return completedState;
+    }
+
+    public void setCompletedState(String completedState) {
+        this.completedState = completedState;
+    }
+
+    public String getTotalCorrectAnswers() {
+        return totalCorrectAnswers;
+    }
+
+    public void setTotalCorrectAnswers(String totalCorrectAnswers) {
+        this.totalCorrectAnswers = totalCorrectAnswers;
+    }
+
+    public String getTotalQuestions() {
+        return totalQuestions;
+    }
+
+    public void setTotalQuestions(String totalQuestions) {
+        this.totalQuestions = totalQuestions;
+    }
 }

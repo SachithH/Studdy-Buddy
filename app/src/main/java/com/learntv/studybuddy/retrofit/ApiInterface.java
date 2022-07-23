@@ -4,7 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
 public interface ApiInterface {
 //    For post request
@@ -72,6 +71,15 @@ public interface ApiInterface {
             @Field("subject_id") int subjectId,
             @Field("syllabus_id") int syllabusId
 
+    );
+
+    @FormUrlEncoded
+    @POST("/studybuddy/v1/student/learning/setFavorite")
+    Call<CommonResponse> set_favourite(
+            @Field("api_key") String apiKey,
+            @Field("api_secret") String apiSecret,
+            @Field("token") String token,
+            @Field("video_id") int video_id
     );
 
     @FormUrlEncoded
