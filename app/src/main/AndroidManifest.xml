@@ -11,9 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyBuddy.Default"
         android:usesCleartextTraffic="true">
-<!--        <activity-->
-<!--            android:name=".AddProfileDetails"-->
-<!--            android:exported="false" />-->
+        <activity
+            android:name=".AddProfileDetails"
+            android:exported="false" />
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
@@ -75,7 +75,7 @@
             android:configChanges="keyboard"
             android:exported="false" />
         <activity
-            android:name=".AddProfileDetails"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
