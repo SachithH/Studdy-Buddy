@@ -50,17 +50,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tnf.a úIh ks¾foaYh\nf;darkak"
+                        android:text="@string/choose_syllabus"
+                        android:textSize="30sp"
                         android:textAlignment="center"
-                        android:textAppearance="@style/ganganeeText" />
+                        android:textAppearance="@style/font_fontFamily_sinhala_bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="b.ekqu wdrïN lrkak"
-                        android:textAlignment="center"
-                        android:textAppearance="@style/malithiText" />
+                        android:textSize="14sp"
+                        android:text="@string/iganuma_armba"
+                        android:textAppearance="@style/font_fontFamily_sinhala_medium" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -121,6 +122,6 @@
         app:menu="@menu/bottom_navigation_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        style="@style/Widget.MaterialComponents.BottomNavigationView"/>
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

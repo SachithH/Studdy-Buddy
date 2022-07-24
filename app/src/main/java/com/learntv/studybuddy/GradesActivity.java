@@ -1,17 +1,23 @@
 package com.learntv.studybuddy;
 
+import static com.learntv.studybuddy.support.BottomNavigation.bottomNavigationFunction;
+
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.learntv.studybuddy.adapters.CustomAdapter;
 import com.learntv.studybuddy.support.SignInPost;
@@ -47,24 +53,27 @@ public class GradesActivity extends BaseActivity {
 
         setAdapter();
 
-//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
-//
-//        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                bottomNavigationFunction(getApplicationContext(),item.getItemId(),token);
-//                switch(item.getItemId()) {
-//                    case R.id.homeBottom:
-//                    case R.id.setting:
-//                    case R.id.walletBottom:
-//                        return true;
-//                    default:
-//                        return false;
-//                }
-//
-//            }
-//        });
+
+//        Bottom Navigation bar
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.getMenu().setGroupCheckable(0,false,true);
+
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                bottomNavigationFunction(getApplicationContext(),item.getItemId(),token);
+                switch(item.getItemId()) {
+                    case R.id.homeBottom:
+                    case R.id.setting:
+                    case R.id.walletBottom:
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+//        End Bottom navigation bar
 
     }
 

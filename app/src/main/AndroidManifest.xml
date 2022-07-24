@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyBuddy.Default"
         android:usesCleartextTraffic="true">
+<!--        <activity-->
+<!--            android:name=".AddProfileDetails"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ResetPasswordActivity"
             android:exported="false" />
@@ -26,7 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".promoCodeActivity"
             android:exported="false" />
@@ -50,7 +53,7 @@
             android:exported="false" />
         <activity
             android:name=".VODListActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SubjectsActivity"
             android:exported="false" />
@@ -72,7 +75,7 @@
             android:configChanges="keyboard"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AddProfileDetails"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

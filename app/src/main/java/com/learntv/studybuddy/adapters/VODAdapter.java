@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>{
-    Context context;
+    private final Context context;
     List<VODResponseData> vodResponseData;
     RecyclerViewClickListener listener;
 
@@ -44,8 +43,8 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
 
     @NonNull
     @Override
-    public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.adapter_vod, parent, false);
+    public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_vod, viewGroup, false);
         return new UsersViewHolder(view);
     }
 
@@ -58,15 +57,14 @@ public class VODAdapter extends RecyclerView.Adapter<VODAdapter.UsersViewHolder>
         holder.getShortDesc().setText(shortDescText);
 
         if (vodResponseData.get(position).getFavoritedState()!=null){
-        if (vodResponseData.get(position).getFavoritedState().equals("True")){
-            holder.getFavouriteBtn().setChecked(true);
-            Log.d("onBindViewHolder: ", String.valueOf(vodResponseData.get(position).getId()));
-            Log.d("onBindViewHolder: ",vodResponseData.get(position).getFavoritedState());
-        }else{
-            holder.favouriteBtn.setChecked(false);
-            Log.d("onBindViewHolder: ", String.valueOf(vodResponseData.get(position).getId()));
-            Log.d("onBindViewHolder: ",vodResponseData.get(position).getFavoritedState());
-        }}
+            if (vodResponseData.get(position).getFavoritedState().equals("True")){
+                holder.getFavouriteBtn().setChecked(true);
+            }else{
+                holder.favouriteBtn.setChecked(false);
+            }
+                Log.d("onBindViewHolder: ", String.valueOf(vodResponseData.get(position).getId()));
+                Log.d("onBindViewHolder: ",vodResponseData.get(position).getFavoritedState());
+        }
 
         String uri = vodResponseData.get(position).getThumb();
         Picasso.get().load(uri).placeholder(R.drawable.gradient_background).into(holder.getVodThumb());

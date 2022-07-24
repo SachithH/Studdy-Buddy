@@ -46,7 +46,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="ඔබගේ ශ්‍රේණිය\nතෝරන්න"
+                            android:text="@string/choose_grade"
                             android:textSize="30sp"
                             android:textAlignment="center"
                             android:textAppearance="@style/font_fontFamily_sinhala_bold" />
@@ -56,7 +56,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:textSize="14sp"
-                            android:text="ඉගැනුම අරම්භ කරන්න"
+                            android:text="@string/iganuma_armba"
                             android:textAppearance="@style/font_fontFamily_sinhala_medium" />
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -91,13 +91,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/bottom_navigation"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:menu="@menu/bottom_navigation_menu"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        style="@style/Widget.MaterialComponents.BottomNavigationView"/>-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_navigation_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

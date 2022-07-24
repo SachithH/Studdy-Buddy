@@ -1,81 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:orientation="vertical">
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_margin="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:orientation="horizontal"
-        android:theme="@style/Theme.AppCompat"
-        card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintEnd_toEndOf="parent"
-        card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toTopOf="parent">
+    <ImageView
+        android:id="@+id/VODThumb"
+        android:layout_width="180dp"
+        android:layout_height="101.25dp"
+        android:contentDescription="@string/thumbnail"
+        android:scaleType="centerInside"
+        app:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/VODThumb"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:layout_weight="1"
-            android:scaleType="centerInside"
-            android:theme="@style/Theme.AppCompat"/>
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="0dp"
+        android:layout_height="101.25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/VODThumb"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/shortDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="15sp"
+            android:layout_below="@+id/heading"
+            />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="15dp"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:theme="@style/Theme.AppCompat">
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shortDesc"
+            android:gravity="end">
 
-
-            <TextView
-                android:id="@+id/heading"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/shortDesc"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="4"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-
-            <LinearLayout
+            <CheckBox
+                android:id="@+id/favouriteBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="2">
+                android:layout_height="match_parent"
+                android:background="@color/nofill"
+                android:button="@drawable/favourite_check_box"
+                android:padding="2dp"
+                android:scaleType="fitCenter" />
 
-                <CheckBox
-                    android:id="@+id/favouriteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@color/nofill"
-                    android:padding="2dp"
-                    android:scaleType="fitCenter"
-                    android:button="@drawable/favourite_check_box"/>
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/markedMcq"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0/5"
+                android:textAlignment="center"
+                android:textColor="?attr/colorOnPrimary"/>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

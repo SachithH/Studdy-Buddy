@@ -19,4 +19,10 @@
     <string name="correct">නිවැරදියි</string>
     <string name="enter_otp_within_60_seconds">OTP has been sent to 07xxxxxxxx number\nEnter OTP within 60 seconds</string>
     <string name="study_buddy">Study Buddy</string>
+    <string name="thumbnail">Thumbnail</string>
+    <string name="iganuma_armba">ඉගැනුම අරම්භ කරන්න</string>
+    <string name="choose_syllabus">ඔබගේ විෂය නිර්දේශය\nතෝරන්න</string>
+    <string name="choose_grade">ඔබගේ ශ්‍රේණිය\nතෝරන්න</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="my_wallet">My Wallet</string>
 </resources>

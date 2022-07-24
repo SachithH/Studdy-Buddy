@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--Buttons-->
+    <style name="Widget.App.Button.OutlinedButton.BackgroundOnly" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearance">@style/BtnShape</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="whiteBtn" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textAppearance">@style/font_fontFamily_bold</item>
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="rippleColor">?attr/colorAccent</item>
+        <item name="shapeAppearance">@style/BtnShape</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="qualityBtn" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/signBtnTxt</item>
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/gilroy_bold</item>
+        <item name="rippleColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="myWalletBtn" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="backgroundTint">@color/accent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAppearance">@style/font_fontFamily_bold</item>
+        <item name="shapeAppearance">@style/Button.MyWallet</item>
+    </style>
+<!--Buttons End-->
+
+<!--Inputs-->
+    <style name="inputBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearance">@style/inputShape</item>
+        <item name="android:textColorHint">?attr/colorOnPrimary</item>
+        <item name="hintTextColor">?attr/colorAccent</item>
+        <item name="boxStrokeColor">@color/inputs</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
+        <item name="passwordToggleTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="sysBackInputBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxCornerRadiusTopStart">20dp</item>
+        <item name="boxCornerRadiusTopEnd">20dp</item>
+        <item name="boxCornerRadiusBottomStart">20dp</item>
+        <item name="boxCornerRadiusBottomEnd">20dp</item>
+    </style>
+
+    <style name="searchBar" parent="Widget.AppCompat.EditText">
+        <item name="background">@color/nofill</item>
+    </style>
+<!--Inputs End-->
+
+<!--Shapes-->
+    <style name="BtnShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">60dp</item>
+    </style>
+
+    <style name="searchBtn" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="inputShape" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Button.MyWallet" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeTopRight">20dp</item>
+    </style>
+<!--Shapes End-->
+
+</resources>
